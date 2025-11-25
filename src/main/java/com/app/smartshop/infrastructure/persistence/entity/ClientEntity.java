@@ -1,4 +1,4 @@
-package com.app.smartshop.infrastructure.persistence;
+package com.app.smartshop.infrastructure.persistence.entity;
 
 import com.app.smartshop.domain.enums.LoyaltyLevel;
 import jakarta.persistence.Entity;
