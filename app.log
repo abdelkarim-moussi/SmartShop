@@ -3470,3 +3470,4 @@ Caused by: org.postgresql.util.PSQLException: FATAL: la base de donn�es � sm
 	at liquibase.integration.spring.SpringLiquibase.lambda$afterPropertiesSet$0(SpringLiquibase.java:275) ~[liquibase-core-4.31.1.jar:na]
 	... 24 common frames omitted
 
+2025-11-25T17:18:01.954+01:00  WARN 10312 --- [SmartShop] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
