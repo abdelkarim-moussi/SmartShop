@@ -9,6 +9,4 @@ public class ClientRequestDTO {
     private String name;
     @Email(message = "email is required")
     private String email;
-    @NotBlank
-    private LoyaltyLevel loyaltyLevel;
 }
