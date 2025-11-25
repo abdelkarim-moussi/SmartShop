@@ -1,7 +1,13 @@
 package com.app.smartshop.application.dto.client;
 
 import com.app.smartshop.domain.enums.LoyaltyLevel;
+import lombok.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ClientResponseDTO {
     private String id;
     private String name;

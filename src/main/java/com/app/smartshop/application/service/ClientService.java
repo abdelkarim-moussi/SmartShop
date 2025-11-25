@@ -6,12 +6,14 @@ import com.app.smartshop.application.mapper.ClientModelDTOMapper;
 import com.app.smartshop.domain.enums.LoyaltyLevel;
 import com.app.smartshop.domain.model.Client;
 import com.app.smartshop.domain.repository.IClientRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ClientService {
     private final IClientRepository clientRepository;

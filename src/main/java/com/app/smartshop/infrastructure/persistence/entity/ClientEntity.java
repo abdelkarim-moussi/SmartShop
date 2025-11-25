@@ -1,10 +1,7 @@
 package com.app.smartshop.infrastructure.persistence.entity;
 
 import com.app.smartshop.domain.enums.LoyaltyLevel;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -13,11 +10,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "clients")
 public class ClientEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+    @Column(name = "name",nullable = false)
     private String name;
+    @Column(name = "email",nullable = false)
     private String email;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "loyalty_level",nullable = false)
     private LoyaltyLevel loyaltyLevel;
 }
