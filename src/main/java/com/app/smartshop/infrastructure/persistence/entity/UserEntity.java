@@ -1,5 +1,6 @@
 package com.app.smartshop.infrastructure.persistence.entity;
 
+import com.app.smartshop.domain.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -23,6 +24,8 @@ public class UserEntity {
     private String userName;
     @NotBlank(message = "password is required")
     @Size(max = 20, min = 8, message = "password must contain at least 8 characters")
-    @Column(nullable = false)
+    @Column(name = "password",nullable = false)
     private String hashedPassword;
+    @Column(name = "role", nullable = false)
+    private UserRole role;
 }
