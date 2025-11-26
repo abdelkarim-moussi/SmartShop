@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface IUserRepository extends GenericRepository<User,String>{
     public Optional<User> findByUserName(String userName);
+    public Optional<User> findByUserNameAndPassword(String userName, String password);
 }

@@ -1,4 +1,51 @@
 package com.app.smartshop.infrastructure.persistence.repository;
 
-public class UserRepositoryImpl {
+import com.app.smartshop.domain.model.User;
+import com.app.smartshop.domain.repository.IUserRepository;
+import com.app.smartshop.infrastructure.mapper.UserModelEntityMapper;
+import com.app.smartshop.infrastructure.persistence.entity.UserEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+@Repository
+@RequiredArgsConstructor
+public class UserRepositoryImpl implements IUserRepository {
+    private final JpaUserRepository userRepository;
+    private final UserModelEntityMapper userModelEntityMapper;
+
+    @Override
+    public User save(User user) {
+        UserEntity entity = userModelEntityMapper.toEntity(user);
+        return userModelEntityMapper.toModel(userRepository.save(entity));
+    }
+
+    @Override
+    public void delete(User user) {
+        UserEntity entity = userModelEntityMapper.toEntity(user);
+        userRepository.delete(entity);
+    }
+
+    @Override
+    public Optional<User> findById(String id) {
+        return userRepository.findById(id).map(userModelEntityMapper::toModel);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll()
+                .stream().map(userModelEntityMapper::toModel)
+                .toList();
+    }
+
+    @Override
+    public Optional<User> findByUserName(String userName) {
+        return userRepository.findByUserName(userName).map(userModelEntityMapper::toModel);
+    }
+
+    @Override
+    public Optional<User> findByUserNameAndPassword(String userName, String password){
+        return userRepository.findByUserNameAndHashedPassword(userName,password).map(userModelEntityMapper::toModel);
+    }
 }
