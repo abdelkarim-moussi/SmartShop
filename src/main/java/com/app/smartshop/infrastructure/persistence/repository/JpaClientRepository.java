@@ -1,6 +1,4 @@
 package com.app.smartshop.infrastructure.persistence.repository;
-
-import com.app.smartshop.domain.repository.IClientRepository;
 import com.app.smartshop.infrastructure.persistence.entity.ClientEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -17,7 +17,7 @@ public class ClientEntity {
     private String id;
     @Column(name = "name",nullable = false)
     private String name;
-    @Column(name = "email",nullable = false)
+    @Column(name = "email",nullable = false,unique = true)
     private String email;
     @Enumerated(EnumType.STRING)
     @Column(name = "loyalty_level",nullable = false)
