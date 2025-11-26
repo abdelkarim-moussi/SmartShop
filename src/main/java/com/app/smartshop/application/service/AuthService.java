@@ -3,12 +3,14 @@ import com.app.smartshop.application.util.LoginResult;
 import com.app.smartshop.domain.model.User;
 import com.app.smartshop.domain.repository.IUserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AuthService {
     private final IUserRepository userRepository;
