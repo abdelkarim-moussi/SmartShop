@@ -1,12 +1,16 @@
 package com.app.smartshop.application.service;
 import com.app.smartshop.application.util.LoginResult;
+import com.app.smartshop.domain.enums.UserRole;
 import com.app.smartshop.domain.model.User;
 import com.app.smartshop.domain.repository.IUserRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -35,6 +39,23 @@ public class AuthService {
                     .build();
         }
 
+    }
+
+    public String register(String userName, String password, UserRole role){
+        User user = userRepository.findByUserName(userName).orElse(new User());
+
+        if(user.getId() != null){
+            throw new EntityExistsException("there is already an account with this userName : "+userName);
+        }
+
+        String hashedPassword = BCrypt.hashpw(password,BCrypt.gensalt());
+
+        user.setUserName(userName);
+        user.setHashedPassword(hashedPassword);
+        user.setRole(role);
+        userRepository.save(user);
+
+        return "user created successfully";
     }
 
 }
