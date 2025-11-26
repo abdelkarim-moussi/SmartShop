@@ -19,13 +19,10 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @Column(nullable = false, unique = true)
-    @NotBlank(message = "name is required")
-    @Size(max = 20,min = 3,message = "username must contain at leat 3 characters")
     private String userName;
-    @NotBlank(message = "password is required")
-    @Size(max = 20, min = 8, message = "password must contain at least 8 characters")
     @Column(name = "password",nullable = false)
     private String hashedPassword;
     @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 }
