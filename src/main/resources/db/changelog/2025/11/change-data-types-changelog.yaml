@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1456167812-1
+      author: abdelkarim
+      changes:
+        - modifyDataType:
+            columnName: password
+            newDataType: VARCHAR(256)
+            tableName: users
+  - changeSet:
+      id: 1456167812-2
+      author: abdelkarim
+      changes:
+        - modifyDataType:
+            columnName: role
+            newDataType: VARCHAR(20)
+            tableName: users
