@@ -7,6 +7,7 @@ import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.InvalidParameterException;
 import com.app.smartshop.application.exception.ProductExistByNameException;
 import com.app.smartshop.application.mapper.ProductModelDTOMapper;
+import com.app.smartshop.domain.model.Client;
 import com.app.smartshop.domain.model.Product;
 import com.app.smartshop.domain.repository.IProductRepository;
 import com.app.smartshop.domain.repository.specification.DomainPageRequest;
@@ -58,7 +59,14 @@ public class ProductServiceImpl implements IProductService{
 
     @Override
     public ProductResponseDTO findProductById(String id) {
-        return null;
+        if(id == null || id.trim().isEmpty()){
+            throw new InvalidParameterException("id can not be null or empty");
+        }
+        Product existProduct = productRepository.findById(id).orElseThrow(
+                ()-> new DataNotExistException("there is no client with this id : "+id)
+        );
+
+        return mapper.toResponseDTO(existProduct);
     }
 
     @Override
