@@ -8,11 +8,7 @@ import com.app.smartshop.domain.repository.specification.Page;
 import com.app.smartshop.infrastructure.mapper.UserModelEntityMapper;
 import com.app.smartshop.infrastructure.persistence.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
-
-import java.awt.print.Pageable;
-import java.util.List;
 import java.util.Optional;
 @Repository
 @RequiredArgsConstructor
@@ -27,9 +23,13 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public void delete(User user) {
-        UserEntity entity = userModelEntityMapper.toEntity(user);
-        userRepository.delete(entity);
+    public User update(User user) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(String id) {
+        userRepository.deleteById(id);
     }
 
     @Override

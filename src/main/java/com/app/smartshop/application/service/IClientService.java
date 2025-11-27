@@ -8,7 +8,8 @@ import com.app.smartshop.domain.repository.specification.DomainPageRequest;
 
 public interface IClientService {
     ClientResponseDTO createClient(ClientRequestDTO client);
+    ClientResponseDTO updateClient(String id,ClientRequestDTO client);
     ClientResponseDTO findClientById(String id);
-    void deleteClient(ClientResponseDTO client);
+    void deleteClientById(String id);
     Page<ClientResponseDTO> findAllClients(DomainPageRequest domainPageRequest, Filters filters);
 }
