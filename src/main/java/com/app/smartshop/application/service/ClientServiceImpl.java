@@ -2,7 +2,7 @@ package com.app.smartshop.application.service;
 
 import com.app.smartshop.application.dto.client.ClientRequestDTO;
 import com.app.smartshop.application.dto.client.ClientResponseDTO;
-import com.app.smartshop.application.dto.client.Filters;
+import com.app.smartshop.application.dto.client.ClientFilters;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.EmailAleadyUsedException;
 import com.app.smartshop.application.exception.InvalidParameterException;
@@ -94,8 +94,8 @@ public class ClientServiceImpl implements IClientService{
     }
 
     @Override
-    public Page<ClientResponseDTO> findAllClients(DomainPageRequest domainPageRequest, Filters filters) {
-        Page<Client> clients = clientRepository.findAll(domainPageRequest,filters);
+    public Page<ClientResponseDTO> findAllClients(DomainPageRequest domainPageRequest, ClientFilters clientFilters) {
+        Page<Client> clients = clientRepository.findAll(domainPageRequest, clientFilters);
         return new Page<>(
                 clients.getItems().stream().map(clientModelDTOMapper::toResponseDTO).toList(),
                 clients.getTotalElements(),
