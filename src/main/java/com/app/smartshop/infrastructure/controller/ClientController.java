@@ -7,6 +7,7 @@ import com.app.smartshop.domain.repository.specification.DomainPageRequest;
 import com.app.smartshop.domain.repository.specification.Page;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,5 +54,10 @@ public class ClientController {
 
         return ResponseEntity.
                 ok(page1);
+    }
+
+    @PutMapping
+    public ResponseEntity<ClientResponseDTO> updateClient(@RequestBody @Valid ClientRequestDTO clientRequest,@RequestParam(value = "id") String id){
+        return ResponseEntity.ok(clientService.updateClient(id,clientRequest));
     }
 }
