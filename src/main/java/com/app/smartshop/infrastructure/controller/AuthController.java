@@ -1,14 +1,11 @@
 package com.app.smartshop.infrastructure.controller;
 
 import com.app.smartshop.application.dto.client.AuthRequest;
-import com.app.smartshop.application.dto.client.AuthResponse;
 import com.app.smartshop.application.dto.client.RegisterRequest;
-import com.app.smartshop.application.service.AuthService;
+import com.app.smartshop.application.service.AuthServiceImpl;
+import com.app.smartshop.application.service.IAuthService;
 import com.app.smartshop.application.util.LoginResult;
 import com.app.smartshop.application.util.SessionManager;
-import com.app.smartshop.domain.enums.UserRole;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -16,14 +13,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.HandlerMapping;
 
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class AuthController {
-    private final AuthService authService;
-    private final HandlerMapping resourceHandlerMapping;
+    private final IAuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest registerRequest){
