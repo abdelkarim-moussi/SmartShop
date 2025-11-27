@@ -3,6 +3,7 @@ package com.app.smartshop.application.service;
 import com.app.smartshop.application.dto.client.ProductFilters;
 import com.app.smartshop.application.dto.client.ProductRequestDTO;
 import com.app.smartshop.application.dto.client.ProductResponseDTO;
+import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.InvalidParameterException;
 import com.app.smartshop.application.exception.ProductExistByNameException;
 import com.app.smartshop.application.mapper.ProductModelDTOMapper;
@@ -39,7 +40,20 @@ public class ProductServiceImpl implements IProductService{
 
     @Override
     public ProductResponseDTO updateProduct(String id, ProductRequestDTO product) {
-        return null;
+        if(id == null || id.trim().isEmpty()){
+            throw new InvalidParameterException("id can not be null or empty");
+        }
+
+        Product existProduct = productRepository.findById(id).orElseThrow(
+                () -> new DataNotExistException("there is no product with this id: "+id)
+        );
+
+        existProduct.setName(product.getName());
+        existProduct.setStock(product.getStock());
+        product.setUnitPrice(product.getUnitPrice());
+
+        Product updatedProduct = productRepository.update(existProduct);
+        return mapper.toResponseDTO(updatedProduct);
     }
 
     @Override
