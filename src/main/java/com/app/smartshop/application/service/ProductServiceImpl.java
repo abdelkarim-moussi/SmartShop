@@ -29,7 +29,7 @@ public class ProductServiceImpl implements IProductService{
         boolean exist = productRepository.existsByName(product.getName());
 
         if(exist){
-            throw new ProductExistByNameException("there is already a product with this name: "+product.getName());
+            throw new ProductExistByNameException("there is already a product with this name: "+product.getName()+"\ntry to increase the stock instead ");
         }
 
         Product savedProduct = productRepository.save(mapper.toDomainModel(product));
