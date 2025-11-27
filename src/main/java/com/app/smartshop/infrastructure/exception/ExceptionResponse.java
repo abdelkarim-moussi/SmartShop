@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 @Value
 @Builder
 public class ExceptionResponse {
-    LocalDateTime timestamp;
+    int status;
     String error;
     String message;
     String path;
-    int status;
+    LocalDateTime timestamp;
 }
