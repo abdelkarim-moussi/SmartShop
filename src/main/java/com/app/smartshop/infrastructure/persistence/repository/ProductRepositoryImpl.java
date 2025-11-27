@@ -31,6 +31,11 @@ public class ProductRepositoryImpl implements IProductRepository {
     }
 
     @Override
+    public boolean existsById(String id) {
+        return productRepository.existsById(id);
+    }
+
+    @Override
     public Product save(Product product) {
         ProductEntity savedProduct = productRepository.save(mapper.toEntity(product));
         return mapper.toModel(savedProduct);
@@ -43,8 +48,8 @@ public class ProductRepositoryImpl implements IProductRepository {
     }
 
     @Override
-    public void deleteById(String s) {
-
+    public void deleteById(String id) {
+        productRepository.deleteById(id);
     }
 
     @Override
