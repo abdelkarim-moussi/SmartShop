@@ -44,6 +44,28 @@ public class ClientServiceImpl implements IClientService{
     }
 
     @Override
+    public ClientResponseDTO updateClient(String id,ClientRequestDTO client) {
+        if(id == null || id.trim().isEmpty() || client == null){
+            throw new InvalidParameterException("data can not be null");
+        }
+
+        Client existClient = clientRepository.findById(id).orElseThrow(
+                () -> new DataNotExistException("there is no client with this id : "+id)
+        );
+
+        boolean existByEmail = clientRepository.existsByEmail(client.getEmail());
+        if(existByEmail){
+            throw new EmailAleadyUsedException("there is already a client with this email: "+client.getEmail());
+        }
+
+        existClient.setEmail(client.getEmail());
+        existClient.setName(client.getName());
+
+        Client updatedClient = clientRepository.update(existClient);
+        return clientModelDTOMapper.toResponseDTO(updatedClient);
+    }
+
+    @Override
     public ClientResponseDTO findClientById(String id) {
 
         if(id == null || id.trim().isEmpty()){
@@ -57,7 +79,7 @@ public class ClientServiceImpl implements IClientService{
     }
 
     @Override
-    public void deleteClient(ClientResponseDTO client) {
+    public void deleteClient(ClientRequestDTO client) {
 
     }
 
