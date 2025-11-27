@@ -17,6 +17,11 @@ public class ClientRepositoryImpl implements IClientRepository {
     private final ClientModelEntityMapper clientModelEntityMapper;
 
     @Override
+    public boolean existsByEmail(String email) {
+        return jpaClientRepository.existsByEmail(email);
+    }
+
+    @Override
     public Optional<Client> findByEmail(String email) {
         return jpaClientRepository.findByEmail(email).map(clientModelEntityMapper::toDomainModel);
     }
