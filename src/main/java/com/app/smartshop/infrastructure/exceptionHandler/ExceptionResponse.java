@@ -1,4 +1,4 @@
-package com.app.smartshop.infrastructure.exception;
+package com.app.smartshop.infrastructure.exceptionHandler;
 
 import lombok.Builder;
 import lombok.Value;
