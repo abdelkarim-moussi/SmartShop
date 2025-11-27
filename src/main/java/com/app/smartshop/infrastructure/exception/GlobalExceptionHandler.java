@@ -2,7 +2,7 @@ package com.app.smartshop.infrastructure.exception;
 
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.EmailAleadyUsedException;
-import jakarta.validation.constraints.Email;
+import com.app.smartshop.application.exception.ProductExistByNameException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -28,6 +28,21 @@ public class GlobalExceptionHandler {
         ExceptionResponse response = ExceptionResponse.builder()
                 .status(409)
                 .error("email already exist")
+                .message(exception.getMessage())
+                .path(request.getDescription(true))
+                .build();
+
+        return ResponseEntity.status(409).body(response);
+    }
+
+    @ExceptionHandler(ProductExistByNameException.class)
+    public ResponseEntity<ExceptionResponse> handleProductAlreadyExistByNameException(
+            ProductExistByNameException exception,
+            WebRequest request){
+
+        ExceptionResponse response = ExceptionResponse.builder()
+                .status(409)
+                .error("product already exist")
                 .message(exception.getMessage())
                 .path(request.getDescription(true))
                 .build();
