@@ -25,4 +25,19 @@ public class SessionManager {
 //        ((HttpServletResponse) request).addCookie(cookie);
         return cookie.getValue();
     }
+
+    public static Cookie destroySession(HttpServletRequest request,HttpServletResponse response){
+        HttpSession session = request.getSession(false);
+        if (session != null){
+            session.invalidate();
+        }
+
+        Cookie cookie = new Cookie("JSESSIONID",null);
+        cookie.setPath(request.getContextPath().isEmpty() ? "/" : request.getContextPath());
+        cookie.setMaxAge(0);
+        cookie.setSecure(request.isSecure());
+        cookie.setHttpOnly(true);
+
+        return cookie;
+    }
 }

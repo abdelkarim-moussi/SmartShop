@@ -1,22 +1,24 @@
 package com.app.smartshop.application.service;
 import com.app.smartshop.application.util.LoginResult;
+import com.app.smartshop.application.util.SessionManager;
 import com.app.smartshop.domain.enums.UserRole;
 import com.app.smartshop.domain.model.User;
 import com.app.smartshop.domain.repository.IUserRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthServiceImpl implements IAuthService{
     private final IUserRepository userRepository;
 
     public LoginResult login(String userName, String password, boolean rememberMe){
@@ -56,6 +58,11 @@ public class AuthService {
         userRepository.save(user);
 
         return "user created successfully";
+    }
+
+    public void logout(HttpServletRequest request, HttpServletResponse response){
+        Cookie cookie = SessionManager.destroySession(request,response);
+        response.addCookie(cookie);
     }
 
 }
