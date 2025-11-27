@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
                 .status(404)
                 .error("data not found")
                 .message(exception.getMessage())
-                .path(request.getDescription(true))
+                .path(request.getDescription(false))
                 .build();
 
         return ResponseEntity.status(404).body(response);
@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
                 .status(409)
                 .error("email already exist")
                 .message(exception.getMessage())
-                .path(request.getDescription(true))
+                .path(request.getDescription(false))
                 .build();
 
         return ResponseEntity.status(409).body(response);
@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
                 .status(409)
                 .error("product already exist")
                 .message(exception.getMessage())
-                .path(request.getDescription(true))
+                .path(request.getDescription(false))
                 .build();
 
         return ResponseEntity.status(409).body(response);

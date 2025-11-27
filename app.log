@@ -4770,3 +4770,6 @@ com.app.smartshop.application.exception.DataNotExistException: there is no clien
 	at java.base/java.lang.Thread.run(Thread.java:842) ~[na:na]
 
 2025-11-27T22:44:21.316+01:00  WARN 15408 --- [SmartShop] [http-nio-8080-exec-5] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpMediaTypeNotAcceptableException: No acceptable representation]
+2025-11-27T23:01:01.355+01:00  WARN 30436 --- [SmartShop] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-27T23:02:46.140+01:00  WARN 11908 --- [SmartShop] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-27T23:04:58.740+01:00  WARN 13048 --- [SmartShop] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
