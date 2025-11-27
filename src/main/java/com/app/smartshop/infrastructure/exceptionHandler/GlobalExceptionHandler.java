@@ -1,4 +1,4 @@
-package com.app.smartshop.infrastructure.exception;
+package com.app.smartshop.infrastructure.exceptionHandler;
 
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.EmailAleadyUsedException;

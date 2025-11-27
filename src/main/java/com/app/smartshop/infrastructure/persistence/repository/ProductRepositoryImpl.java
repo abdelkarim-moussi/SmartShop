@@ -38,7 +38,8 @@ public class ProductRepositoryImpl implements IProductRepository {
 
     @Override
     public Product update(Product product) {
-        return null;
+        ProductEntity updated = productRepository.save(mapper.toEntity(product));
+        return mapper.toModel(updated);
     }
 
     @Override
@@ -47,8 +48,9 @@ public class ProductRepositoryImpl implements IProductRepository {
     }
 
     @Override
-    public Optional<Product> findById(String s) {
-        return Optional.empty();
+    public Optional<Product> findById(String id) {
+        Optional<ProductEntity> product = productRepository.findById(id);
+        return product.map(mapper::toModel);
     }
 
     @Override

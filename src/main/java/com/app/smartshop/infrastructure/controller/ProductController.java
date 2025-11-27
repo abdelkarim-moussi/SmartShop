@@ -19,4 +19,11 @@ public class ProductController {
         ProductResponseDTO savedProduct = productService.createProduct(product);
         return ResponseEntity.ok(savedProduct);
     }
+
+    @PutMapping("update")
+    public ResponseEntity<ProductResponseDTO> updateProduct(@RequestParam(value = "id") String id,@RequestBody @Valid ProductRequestDTO product){
+        ProductResponseDTO saved = productService.updateProduct(id,product);
+        return ResponseEntity.ok(saved);
+    }
+
 }
