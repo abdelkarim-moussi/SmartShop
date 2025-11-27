@@ -1,10 +1,13 @@
 package com.app.smartshop.domain.repository;
-import java.util.List;
+import com.app.smartshop.application.dto.client.Filters;
+import com.app.smartshop.domain.repository.specification.Page;
+import com.app.smartshop.domain.repository.specification.DomainPageRequest;
+
 import java.util.Optional;
 
 public interface GenericRepository<T,ID> {
     public T save(T t);
     public void delete(T t);
     public Optional<T> findById(ID id);
-    public List<T> findAll();
+    public Page<T> findAll(DomainPageRequest domainPageRequest, Filters filters);
 }
