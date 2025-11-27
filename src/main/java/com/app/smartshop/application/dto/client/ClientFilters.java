@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Filters {
+public class ClientFilters {
     private String loyaltyLevel;
     private String search;
 }

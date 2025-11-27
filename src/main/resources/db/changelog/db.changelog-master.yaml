@@ -4,3 +4,5 @@ databaseChangeLog:
       file: db/changelog/2025/11/26-01-create-clients-users-tables-changelog.yaml
   - include:
       file: db/changelog/2025/11/change-data-types-changelog.yaml
+  - include:
+      file: db/changelog/2025/11/27-01-create-products-table-changelog.yaml

@@ -1,6 +1,6 @@
 package com.app.smartshop.infrastructure.persistence.repository;
 
-import com.app.smartshop.application.dto.client.Filters;
+import com.app.smartshop.application.dto.client.ClientFilters;
 import com.app.smartshop.domain.model.Client;
 import com.app.smartshop.domain.repository.IClientRepository;
 import com.app.smartshop.domain.repository.specification.Page;
@@ -53,7 +53,7 @@ public class ClientRepositoryImpl implements IClientRepository {
     }
 
     @Override
-    public Page<Client> findAll(DomainPageRequest pageRequest, Filters filters) {
+    public Page<Client> findAll(DomainPageRequest pageRequest, ClientFilters clientFilters) {
         Pageable pageable = PageRequest.of(pageRequest.getPage(),pageRequest.getSize());
         org.springframework.data.domain.Page<ClientEntity> jpaPage = jpaClientRepository.findAll(pageable);
 
