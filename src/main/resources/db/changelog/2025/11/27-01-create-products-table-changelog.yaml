@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1764256222043-4
+      author: abdelkarim
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_products
+                  name: id
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: unit_price
+                  type: DECIMAL
+              - column:
+                  constraints:
+                    nullable: false
+                  name: stock
+                  type: INT
+            tableName: products
+
