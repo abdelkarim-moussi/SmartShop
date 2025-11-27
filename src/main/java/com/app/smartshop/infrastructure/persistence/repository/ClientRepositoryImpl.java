@@ -43,9 +43,8 @@ public class ClientRepositoryImpl implements IClientRepository {
     }
 
     @Override
-    public void delete(Client client) {
-        ClientEntity entity = clientModelEntityMapper.toEntity(client);
-        jpaClientRepository.delete(entity);
+    public void deleteById(String id) {
+        jpaClientRepository.deleteById(id);
     }
 
     @Override
