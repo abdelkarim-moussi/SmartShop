@@ -5,11 +5,9 @@ import com.app.smartshop.application.service.ClientServiceImpl;
 import com.app.smartshop.application.service.IClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/clients")
@@ -21,5 +19,11 @@ public class ClientController {
     public ResponseEntity<ClientResponseDTO> createClient(@RequestBody @Valid ClientRequestDTO clientRequestDTO){
         ClientResponseDTO clientResponseDTO = clientService.createClient(clientRequestDTO);
         return ResponseEntity.ok(clientResponseDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<ClientResponseDTO> getClientById(@RequestParam(value = "id") String id){
+        return ResponseEntity.
+                ok(clientService.findClientById(id));
     }
 }
