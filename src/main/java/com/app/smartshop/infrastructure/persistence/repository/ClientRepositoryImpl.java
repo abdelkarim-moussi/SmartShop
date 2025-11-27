@@ -37,6 +37,12 @@ public class ClientRepositoryImpl implements IClientRepository {
     }
 
     @Override
+    public Client update(Client client) {
+        ClientEntity updatedClient = jpaClientRepository.save(clientModelEntityMapper.toEntity(client));
+        return clientModelEntityMapper.toDomainModel(updatedClient);
+    }
+
+    @Override
     public void delete(Client client) {
         ClientEntity entity = clientModelEntityMapper.toEntity(client);
         jpaClientRepository.delete(entity);
