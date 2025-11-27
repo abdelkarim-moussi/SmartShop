@@ -12,5 +12,5 @@ public class ExceptionResponse {
     String error;
     String message;
     String path;
-    LocalDateTime timestamp;
+    LocalDateTime timestamp = LocalDateTime.now();
 }
