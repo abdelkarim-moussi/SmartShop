@@ -69,7 +69,7 @@ public class ClientServiceImpl implements IClientService{
     public ClientResponseDTO findClientById(String id) {
 
         if(id == null || id.trim().isEmpty()){
-            return null;
+            throw new InvalidParameterException("id can not be null or empty");
         }
         Client existClient = clientRepository.findById(id).orElseThrow(
                 ()-> new DataNotExistException("there is no client with this id : "+id)

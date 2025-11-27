@@ -26,4 +26,16 @@ public class ProductController {
         return ResponseEntity.ok(saved);
     }
 
+    @GetMapping(params = "id")
+    public ResponseEntity<ProductResponseDTO> getProductById(@RequestParam(value = "id") String id){
+        ProductResponseDTO existedProduct = productService.findProductById(id);
+        return ResponseEntity.ok(existedProduct);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteProduct(@RequestParam(value = "id") String id){
+        productService.deleteProductById(id);
+        return ResponseEntity.ok("product deleted successfully");
+    }
+
 }

@@ -58,12 +58,28 @@ public class ProductServiceImpl implements IProductService{
 
     @Override
     public ProductResponseDTO findProductById(String id) {
-        return null;
+        if(id == null || id.trim().isEmpty()){
+            throw new InvalidParameterException("id can not be null or empty");
+        }
+        Product existProduct = productRepository.findById(id).orElseThrow(
+                ()-> new DataNotExistException("there is no product with this id : "+id)
+        );
+
+        return mapper.toResponseDTO(existProduct);
     }
 
     @Override
     public void deleteProductById(String id) {
+        if(id == null || id.trim().isEmpty()){
+            throw new InvalidParameterException("id can not be null or empty");
+        }
+        boolean exist = productRepository.existsById(id);
 
+        if(!exist){
+           throw new DataNotExistException("there is no product with this id : "+id);
+        }
+
+        productRepository.deleteById(id);
     }
 
     @Override
