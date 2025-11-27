@@ -79,7 +79,17 @@ public class ClientServiceImpl implements IClientService{
     }
 
     @Override
-    public void deleteClient(ClientRequestDTO client) {
+    public void deleteClientById(String id) {
+        if(id == null || id.trim().isEmpty()){
+            throw new InvalidParameterException("id can not be null or empty");
+        }
+
+        Client existClient = clientRepository.findById(id).orElseThrow(
+                () -> new DataNotExistException("there is no client with this id: "+id)
+        );
+
+        clientRepository.deleteById(id);
+
 
     }
 

@@ -56,8 +56,15 @@ public class ClientController {
                 ok(page1);
     }
 
-    @PutMapping
+    @PutMapping("update")
     public ResponseEntity<ClientResponseDTO> updateClient(@RequestBody @Valid ClientRequestDTO clientRequest,@RequestParam(value = "id") String id){
         return ResponseEntity.ok(clientService.updateClient(id,clientRequest));
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteClient(@RequestParam(value = "id") String id){
+        clientService.deleteClientById(id);
+        return ResponseEntity.ok("client with id:"+id+"deleted successfully");
+    }
+
 }

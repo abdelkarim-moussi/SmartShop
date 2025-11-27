@@ -10,6 +10,6 @@ public interface IClientService {
     ClientResponseDTO createClient(ClientRequestDTO client);
     ClientResponseDTO updateClient(String id,ClientRequestDTO client);
     ClientResponseDTO findClientById(String id);
-    void deleteClient(ClientRequestDTO client);
+    void deleteClientById(String id);
     Page<ClientResponseDTO> findAllClients(DomainPageRequest domainPageRequest, Filters filters);
 }
