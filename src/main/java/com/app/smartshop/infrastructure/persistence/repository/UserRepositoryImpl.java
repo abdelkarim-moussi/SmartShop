@@ -1,12 +1,17 @@
 package com.app.smartshop.infrastructure.persistence.repository;
 
+import com.app.smartshop.application.dto.client.Filters;
 import com.app.smartshop.domain.model.User;
 import com.app.smartshop.domain.repository.IUserRepository;
+import com.app.smartshop.domain.repository.specification.DomainPageRequest;
+import com.app.smartshop.domain.repository.specification.Page;
 import com.app.smartshop.infrastructure.mapper.UserModelEntityMapper;
 import com.app.smartshop.infrastructure.persistence.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 @Repository
@@ -33,10 +38,8 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll()
-                .stream().map(userModelEntityMapper::toModel)
-                .toList();
+    public Page<User> findAll(DomainPageRequest pageRequest, Filters filters) {
+        return null;
     }
 
     @Override
