@@ -26,4 +26,10 @@ public class ProductController {
         return ResponseEntity.ok(saved);
     }
 
+    @GetMapping(params = "id")
+    public ResponseEntity<ProductResponseDTO> getProductById(@RequestParam(value = "id") String id){
+        ProductResponseDTO existedProduct = productService.findProductById(id);
+        return ResponseEntity.ok(existedProduct);
+    }
+
 }
