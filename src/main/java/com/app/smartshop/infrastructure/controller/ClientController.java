@@ -1,13 +1,12 @@
 package com.app.smartshop.infrastructure.controller;
 import com.app.smartshop.application.dto.client.ClientRequestDTO;
 import com.app.smartshop.application.dto.client.ClientResponseDTO;
-import com.app.smartshop.application.dto.client.Filters;
+import com.app.smartshop.application.dto.client.ClientFilters;
 import com.app.smartshop.application.service.IClientService;
 import com.app.smartshop.domain.repository.specification.DomainPageRequest;
 import com.app.smartshop.domain.repository.specification.Page;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +37,7 @@ public class ClientController {
             @RequestParam(name = "search", required = false) String search
     ){
 
-        Filters filters = Filters.builder()
+        ClientFilters clientFilters = ClientFilters.builder()
                 .loyaltyLevel(loyaltyLevel)
                 .search(search)
                 .build();
@@ -50,7 +49,7 @@ public class ClientController {
                 .sortDir(sortDir)
                 .build();
 
-        Page<ClientResponseDTO> page1 = clientService.findAllClients(domainPageRequest, filters);
+        Page<ClientResponseDTO> page1 = clientService.findAllClients(domainPageRequest, clientFilters);
 
         return ResponseEntity.
                 ok(page1);

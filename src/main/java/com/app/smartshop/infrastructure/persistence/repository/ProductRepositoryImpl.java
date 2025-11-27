@@ -1,4 +1,58 @@
 package com.app.smartshop.infrastructure.persistence.repository;
 
-public class ProductRepositoryImpl {
+import com.app.smartshop.application.dto.client.ClientFilters;
+import com.app.smartshop.domain.model.Product;
+import com.app.smartshop.domain.repository.IProductRepository;
+import com.app.smartshop.domain.repository.specification.DomainPageRequest;
+import com.app.smartshop.domain.repository.specification.Page;
+import com.app.smartshop.infrastructure.mapper.ProductModelEntityMapper;
+import com.app.smartshop.infrastructure.persistence.entity.ProductEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+@RequiredArgsConstructor
+public class ProductRepositoryImpl implements IProductRepository {
+
+    private final JpaProductRepository productRepository;
+    private final ProductModelEntityMapper mapper;
+
+
+    @Override
+    public Product findProductByName(String name) {
+        return null;
+    }
+
+    @Override
+    public boolean existsByName(String name) {
+        return productRepository.existsByName(name);
+    }
+
+    @Override
+    public Product save(Product product) {
+        ProductEntity savedProduct = productRepository.save(mapper.toEntity(product));
+        return mapper.toModel(savedProduct);
+    }
+
+    @Override
+    public Product update(Product product) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(String s) {
+
+    }
+
+    @Override
+    public Optional<Product> findById(String s) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Page<Product> findAll(DomainPageRequest domainPageRequest, ClientFilters clientFilters) {
+        return null;
+    }
 }
