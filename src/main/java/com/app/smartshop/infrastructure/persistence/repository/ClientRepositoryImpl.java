@@ -1,13 +1,17 @@
 package com.app.smartshop.infrastructure.persistence.repository;
 
+import com.app.smartshop.application.dto.client.Filters;
 import com.app.smartshop.domain.model.Client;
 import com.app.smartshop.domain.repository.IClientRepository;
+import com.app.smartshop.domain.repository.specification.Page;
+import com.app.smartshop.domain.repository.specification.DomainPageRequest;
 import com.app.smartshop.infrastructure.mapper.ClientModelEntityMapper;
 import com.app.smartshop.infrastructure.persistence.entity.ClientEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -44,9 +48,14 @@ public class ClientRepositoryImpl implements IClientRepository {
     }
 
     @Override
-    public List<Client> findAll() {
-        return jpaClientRepository.findAll()
-                .stream()
-                .map(clientModelEntityMapper::toDomainModel).toList();
+    public Page<Client> findAll(DomainPageRequest pageRequest, Filters filters) {
+        Pageable pageable = PageRequest.of(pageRequest.getPage(),pageRequest.getSize());
+        org.springframework.data.domain.Page<ClientEntity> jpaPage = jpaClientRepository.findAll(pageable);
+
+        return new Page<>(
+                jpaPage.getContent().stream().map(clientModelEntityMapper::toDomainModel).toList(),
+                jpaPage.getTotalElements(),
+                jpaPage.getTotalPages()
+        );
     }
 }
