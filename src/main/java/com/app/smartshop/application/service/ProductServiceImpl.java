@@ -4,6 +4,7 @@ import com.app.smartshop.application.dto.client.ProductFilters;
 import com.app.smartshop.application.dto.client.ProductRequestDTO;
 import com.app.smartshop.application.dto.client.ProductResponseDTO;
 import com.app.smartshop.application.exception.InvalidParameterException;
+import com.app.smartshop.application.exception.ProductExistByNameException;
 import com.app.smartshop.application.mapper.ProductModelDTOMapper;
 import com.app.smartshop.domain.model.Product;
 import com.app.smartshop.domain.repository.IProductRepository;
@@ -25,11 +26,12 @@ public class ProductServiceImpl implements IProductService{
         if(product == null){
             throw new InvalidParameterException("product data can not be null");
         }
-
         boolean exist = productRepository.existsByName(product.getName());
+
         if(exist){
-            throw new
+            throw new ProductExistByNameException("there is already a product with this name: "+product.getName());
         }
+
         Product savedProduct = productRepository.save(mapper.toDomainModel(product));
 
         return mapper.toResponseDTO(savedProduct);
