@@ -32,4 +32,10 @@ public class ProductController {
         return ResponseEntity.ok(existedProduct);
     }
 
+    @DeleteMapping
+    public ResponseEntity<String> deleteProduct(@RequestParam(value = "id") String id){
+        productService.deleteProductById(id);
+        return ResponseEntity.ok("product deleted successfully");
+    }
+
 }
