@@ -38,7 +38,8 @@ public class ProductRepositoryImpl implements IProductRepository {
 
     @Override
     public Product update(Product product) {
-        return null;
+        ProductEntity updated = productRepository.save(mapper.toEntity(product));
+        return mapper.toModel(updated);
     }
 
     @Override
