@@ -6,6 +6,7 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -24,4 +25,11 @@ public class Order {
     private BigDecimal restAmount;
     private Client client;
     private List<OrderItem> articlesList;
+
+    public BigDecimal calculateSubTotal(){
+        return articlesList.stream()
+                .map(o -> o.getUnitPrice().multiply(BigDecimal.valueOf(o.getQuantity())))
+                .reduce(BigDecimal.ZERO,BigDecimal::add);
+    }
+
 }
