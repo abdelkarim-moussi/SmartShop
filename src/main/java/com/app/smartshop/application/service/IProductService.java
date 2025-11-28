@@ -1,8 +1,8 @@
 package com.app.smartshop.application.service;
 
 import com.app.smartshop.application.dto.client.*;
-import com.app.smartshop.domain.repository.specification.DomainPageRequest;
-import com.app.smartshop.domain.repository.specification.Page;
+import com.app.smartshop.domain.repository.DomainPageRequest;
+import com.app.smartshop.domain.repository.Page;
 
 public interface IProductService {
     ProductResponseDTO createProduct(ProductRequestDTO product);

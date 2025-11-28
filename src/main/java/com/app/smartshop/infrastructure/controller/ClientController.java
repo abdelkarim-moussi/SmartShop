@@ -3,8 +3,8 @@ import com.app.smartshop.application.dto.client.ClientRequestDTO;
 import com.app.smartshop.application.dto.client.ClientResponseDTO;
 import com.app.smartshop.application.dto.client.ClientFilters;
 import com.app.smartshop.application.service.IClientService;
-import com.app.smartshop.domain.repository.specification.DomainPageRequest;
-import com.app.smartshop.domain.repository.specification.Page;
+import com.app.smartshop.domain.repository.DomainPageRequest;
+import com.app.smartshop.domain.repository.Page;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -49,10 +49,10 @@ public class ClientController {
                 .sortDir(sortDir)
                 .build();
 
-        Page<ClientResponseDTO> page1 = clientService.findAllClients(domainPageRequest, clientFilters);
+        Page<ClientResponseDTO> responsePage = clientService.findAllClients(domainPageRequest, clientFilters);
 
         return ResponseEntity.
-                ok(page1);
+                ok(responsePage);
     }
 
     @PutMapping("update")

@@ -1,4 +1,4 @@
-package com.app.smartshop.domain.repository.specification;
+package com.app.smartshop.domain.repository;
 
 import lombok.*;
 
