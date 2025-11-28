@@ -15,7 +15,7 @@ public class Product {
     private BigDecimal unitPrice;
     private int stock;
 
-    public boolean isUnavailable(){
+    public boolean isProductAvailable(){
         return this.stock == 0;
     }
 }
