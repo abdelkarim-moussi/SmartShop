@@ -16,5 +16,12 @@ public class OrderItem {
     private Product product;
     private int quantity;
     private BigDecimal unitPrice;
-    private BigDecimal totalOrder;
+    private BigDecimal totalLine;
+
+    public BigDecimal calculateTotalLine(){
+        if(unitPrice == null || quantity <= 0){
+            return BigDecimal.ZERO;
+        }
+        return unitPrice.multiply(BigDecimal.valueOf(quantity));
+    };
 }
