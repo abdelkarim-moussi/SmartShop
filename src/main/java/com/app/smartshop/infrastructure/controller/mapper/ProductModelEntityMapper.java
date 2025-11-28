@@ -1,4 +1,4 @@
-package com.app.smartshop.infrastructure.mapper;
+package com.app.smartshop.infrastructure.controller.mapper;
 
 import com.app.smartshop.domain.model.Product;
 import com.app.smartshop.infrastructure.persistence.entity.ProductEntity;

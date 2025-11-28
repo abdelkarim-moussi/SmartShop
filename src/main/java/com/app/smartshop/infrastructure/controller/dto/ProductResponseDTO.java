@@ -1,4 +1,4 @@
-package com.app.smartshop.infrastructure.client;
+package com.app.smartshop.infrastructure.controller.dto;
 import lombok.*;
 
 import java.math.BigDecimal;

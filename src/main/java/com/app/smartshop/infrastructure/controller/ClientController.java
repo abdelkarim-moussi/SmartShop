@@ -1,10 +1,10 @@
 package com.app.smartshop.infrastructure.controller;
-import com.app.smartshop.application.dto.client.ClientRequestDTO;
-import com.app.smartshop.application.dto.client.ClientResponseDTO;
-import com.app.smartshop.application.dto.client.ClientFilters;
+import com.app.smartshop.infrastructure.controller.dto.ClientRequestDTO;
+import com.app.smartshop.infrastructure.controller.dto.ClientResponseDTO;
+import com.app.smartshop.domain.model.search.ClientCriteria;
 import com.app.smartshop.application.service.IClientService;
-import com.app.smartshop.domain.repository.DomainPageRequest;
-import com.app.smartshop.domain.repository.Page;
+import com.app.smartshop.infrastructure.controller.dto.DomainPageRequest;
+import com.app.smartshop.infrastructure.controller.dto.Page;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +37,7 @@ public class ClientController {
             @RequestParam(name = "search", required = false) String search
     ){
 
-        ClientFilters clientFilters = ClientFilters.builder()
+        ClientCriteria clientCriteria = ClientCriteria.builder()
                 .loyaltyLevel(loyaltyLevel)
                 .search(search)
                 .build();
@@ -49,7 +49,7 @@ public class ClientController {
                 .sortDir(sortDir)
                 .build();
 
-        Page<ClientResponseDTO> responsePage = clientService.findAllClients(domainPageRequest, clientFilters);
+        Page<ClientResponseDTO> responsePage = clientService.findAllClients(domainPageRequest, clientCriteria);
 
         return ResponseEntity.
                 ok(responsePage);

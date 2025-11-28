@@ -1,10 +1,10 @@
 package com.app.smartshop.infrastructure.persistence.repository;
-import com.app.smartshop.application.dto.client.ProductFilters;
+import com.app.smartshop.domain.model.search.ProductCriteria;
 import com.app.smartshop.domain.model.Product;
 import com.app.smartshop.domain.repository.IProductRepository;
-import com.app.smartshop.domain.repository.DomainPageRequest;
-import com.app.smartshop.domain.repository.Page;
-import com.app.smartshop.infrastructure.mapper.ProductModelEntityMapper;
+import com.app.smartshop.infrastructure.controller.dto.DomainPageRequest;
+import com.app.smartshop.infrastructure.controller.dto.Page;
+import com.app.smartshop.infrastructure.controller.mapper.ProductModelEntityMapper;
 import com.app.smartshop.infrastructure.persistence.entity.ProductEntity;
 import com.app.smartshop.infrastructure.persistence.repository.specification.ProductSpecification;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +61,7 @@ public class ProductRepositoryImpl implements IProductRepository {
     }
 
     @Override
-    public Page<Product> findAll(DomainPageRequest domainPageRequest, ProductFilters filters) {
+    public Page<Product> findAll(DomainPageRequest domainPageRequest, ProductCriteria filters) {
         Specification<ProductEntity> specification = ProductSpecification.byFilters(filters);
 
         Pageable pageable = PageRequest.of(domainPageRequest.getPage(),domainPageRequest.getSize());

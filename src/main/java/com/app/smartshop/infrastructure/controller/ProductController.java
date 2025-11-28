@@ -1,11 +1,11 @@
 package com.app.smartshop.infrastructure.controller;
 
-import com.app.smartshop.application.dto.client.ProductFilters;
-import com.app.smartshop.application.dto.client.ProductRequestDTO;
-import com.app.smartshop.application.dto.client.ProductResponseDTO;
+import com.app.smartshop.domain.model.search.ProductCriteria;
+import com.app.smartshop.infrastructure.controller.dto.ProductRequestDTO;
+import com.app.smartshop.infrastructure.controller.dto.ProductResponseDTO;
 import com.app.smartshop.application.service.IProductService;
-import com.app.smartshop.domain.repository.DomainPageRequest;
-import com.app.smartshop.domain.repository.Page;
+import com.app.smartshop.infrastructure.controller.dto.DomainPageRequest;
+import com.app.smartshop.infrastructure.controller.dto.Page;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +59,7 @@ public class ProductController {
                 .sortDir(sortDir)
                 .build();
 
-        ProductFilters filters = ProductFilters.builder()
+        ProductCriteria filters = ProductCriteria.builder()
                 .name(name)
                 .unitPrice(price)
                 .build();

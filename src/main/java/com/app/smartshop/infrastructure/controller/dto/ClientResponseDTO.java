@@ -1,4 +1,4 @@
-package com.app.smartshop.infrastructure.client;
+package com.app.smartshop.infrastructure.controller.dto;
 
 import com.app.smartshop.domain.enums.LoyaltyLevel;
 import lombok.*;

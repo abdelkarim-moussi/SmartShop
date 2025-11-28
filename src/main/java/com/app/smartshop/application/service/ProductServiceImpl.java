@@ -1,16 +1,16 @@
 package com.app.smartshop.application.service;
 
-import com.app.smartshop.application.dto.client.ProductFilters;
-import com.app.smartshop.application.dto.client.ProductRequestDTO;
-import com.app.smartshop.application.dto.client.ProductResponseDTO;
+import com.app.smartshop.domain.model.search.ProductCriteria;
+import com.app.smartshop.infrastructure.controller.dto.ProductRequestDTO;
+import com.app.smartshop.infrastructure.controller.dto.ProductResponseDTO;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.InvalidParameterException;
 import com.app.smartshop.application.exception.ProductExistByNameException;
-import com.app.smartshop.application.mapper.ProductModelDTOMapper;
+import com.app.smartshop.infrastructure.controller.mapper.ProductModelDTOMapper;
 import com.app.smartshop.domain.model.Product;
 import com.app.smartshop.domain.repository.IProductRepository;
-import com.app.smartshop.domain.repository.DomainPageRequest;
-import com.app.smartshop.domain.repository.Page;
+import com.app.smartshop.infrastructure.controller.dto.DomainPageRequest;
+import com.app.smartshop.infrastructure.controller.dto.Page;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -83,7 +83,7 @@ public class ProductServiceImpl implements IProductService{
     }
 
     @Override
-    public Page<ProductResponseDTO> findAllProducts(DomainPageRequest domainPageRequest, ProductFilters filters) {
+    public Page<ProductResponseDTO> findAllProducts(DomainPageRequest domainPageRequest, ProductCriteria filters) {
         Page<Product> page = productRepository.findAll(domainPageRequest,filters);
 
         return new Page<>(

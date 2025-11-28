@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Value
 @Builder
-public class ProductFilters {
+public class ProductCriteria {
     String name;
     BigDecimal unitPrice;
 }

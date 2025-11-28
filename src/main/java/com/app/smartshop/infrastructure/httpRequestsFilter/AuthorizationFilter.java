@@ -1,4 +1,4 @@
-package com.app.smartshop.infrastructure.filter;
+package com.app.smartshop.infrastructure.httpRequestsFilter;
 
 import com.app.smartshop.application.util.LoginResult;
 import com.app.smartshop.domain.enums.UserRole;

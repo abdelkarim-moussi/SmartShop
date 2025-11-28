@@ -1,4 +1,4 @@
-package com.app.smartshop.domain.repository;
+package com.app.smartshop.infrastructure.controller.dto;
 
 import lombok.Builder;
 import lombok.Getter;

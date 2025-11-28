@@ -1,11 +1,11 @@
 package com.app.smartshop.infrastructure.persistence.repository;
 
-import com.app.smartshop.application.dto.client.ClientFilters;
+import com.app.smartshop.domain.model.search.ClientCriteria;
 import com.app.smartshop.domain.model.Client;
 import com.app.smartshop.domain.repository.IClientRepository;
-import com.app.smartshop.domain.repository.Page;
-import com.app.smartshop.domain.repository.DomainPageRequest;
-import com.app.smartshop.infrastructure.mapper.ClientModelEntityMapper;
+import com.app.smartshop.infrastructure.controller.dto.Page;
+import com.app.smartshop.infrastructure.controller.dto.DomainPageRequest;
+import com.app.smartshop.infrastructure.controller.mapper.ClientModelEntityMapper;
 import com.app.smartshop.infrastructure.persistence.entity.ClientEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -52,7 +52,7 @@ public class ClientRepositoryImpl implements IClientRepository {
     }
 
     @Override
-    public Page<Client> findAll(DomainPageRequest pageRequest, ClientFilters clientFilters) {
+    public Page<Client> findAll(DomainPageRequest pageRequest, ClientCriteria clientCriteria) {
         Pageable pageable = PageRequest.of(pageRequest.getPage(),pageRequest.getSize());
         org.springframework.data.domain.Page<ClientEntity> jpaPage = jpaClientRepository.findAll(pageable);
 
