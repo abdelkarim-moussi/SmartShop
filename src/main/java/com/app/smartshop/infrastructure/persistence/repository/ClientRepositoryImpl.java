@@ -3,15 +3,14 @@ package com.app.smartshop.infrastructure.persistence.repository;
 import com.app.smartshop.application.dto.client.ClientFilters;
 import com.app.smartshop.domain.model.Client;
 import com.app.smartshop.domain.repository.IClientRepository;
-import com.app.smartshop.domain.repository.specification.Page;
-import com.app.smartshop.domain.repository.specification.DomainPageRequest;
+import com.app.smartshop.domain.repository.Page;
+import com.app.smartshop.domain.repository.DomainPageRequest;
 import com.app.smartshop.infrastructure.mapper.ClientModelEntityMapper;
 import com.app.smartshop.infrastructure.persistence.entity.ClientEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
 
 @Repository

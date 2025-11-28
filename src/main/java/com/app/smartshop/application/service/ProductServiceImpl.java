@@ -9,8 +9,8 @@ import com.app.smartshop.application.exception.ProductExistByNameException;
 import com.app.smartshop.application.mapper.ProductModelDTOMapper;
 import com.app.smartshop.domain.model.Product;
 import com.app.smartshop.domain.repository.IProductRepository;
-import com.app.smartshop.domain.repository.specification.DomainPageRequest;
-import com.app.smartshop.domain.repository.specification.Page;
+import com.app.smartshop.domain.repository.DomainPageRequest;
+import com.app.smartshop.domain.repository.Page;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -84,6 +84,12 @@ public class ProductServiceImpl implements IProductService{
 
     @Override
     public Page<ProductResponseDTO> findAllProducts(DomainPageRequest domainPageRequest, ProductFilters filters) {
-        return null;
+        Page<Product> page = productRepository.findAll(domainPageRequest,filters);
+
+        return new Page<>(
+                page.getItems().stream().map(mapper::toResponseDTO).toList(),
+                page.getTotalElements(),
+                page.getTotalPages()
+        );
     }
 }

@@ -1,15 +1,17 @@
 package com.app.smartshop.infrastructure.persistence.repository;
-
-import com.app.smartshop.application.dto.client.ClientFilters;
+import com.app.smartshop.application.dto.client.ProductFilters;
 import com.app.smartshop.domain.model.Product;
 import com.app.smartshop.domain.repository.IProductRepository;
-import com.app.smartshop.domain.repository.specification.DomainPageRequest;
-import com.app.smartshop.domain.repository.specification.Page;
+import com.app.smartshop.domain.repository.DomainPageRequest;
+import com.app.smartshop.domain.repository.Page;
 import com.app.smartshop.infrastructure.mapper.ProductModelEntityMapper;
 import com.app.smartshop.infrastructure.persistence.entity.ProductEntity;
+import com.app.smartshop.infrastructure.persistence.repository.specification.ProductSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
 
 @Repository
@@ -59,7 +61,15 @@ public class ProductRepositoryImpl implements IProductRepository {
     }
 
     @Override
-    public Page<Product> findAll(DomainPageRequest domainPageRequest, ClientFilters clientFilters) {
-        return null;
+    public Page<Product> findAll(DomainPageRequest domainPageRequest, ProductFilters filters) {
+        Specification<ProductEntity> specification = ProductSpecification.byFilters(filters);
+
+        Pageable pageable = PageRequest.of(domainPageRequest.getPage(),domainPageRequest.getSize());
+        org.springframework.data.domain.Page<ProductEntity> jpaPage = productRepository.findAll(specification,pageable);
+        return new Page<>(
+                jpaPage.getContent().stream().map(mapper::toModel).toList(),
+                jpaPage.getTotalElements(),
+                jpaPage.getTotalPages()
+        );
     }
 }

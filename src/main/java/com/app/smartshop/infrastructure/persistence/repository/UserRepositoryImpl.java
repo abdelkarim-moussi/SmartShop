@@ -1,10 +1,10 @@
 package com.app.smartshop.infrastructure.persistence.repository;
 
-import com.app.smartshop.application.dto.client.ClientFilters;
+import com.app.smartshop.application.dto.client.UserFilters;
 import com.app.smartshop.domain.model.User;
 import com.app.smartshop.domain.repository.IUserRepository;
-import com.app.smartshop.domain.repository.specification.DomainPageRequest;
-import com.app.smartshop.domain.repository.specification.Page;
+import com.app.smartshop.domain.repository.DomainPageRequest;
+import com.app.smartshop.domain.repository.Page;
 import com.app.smartshop.infrastructure.mapper.UserModelEntityMapper;
 import com.app.smartshop.infrastructure.persistence.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class UserRepositoryImpl implements IUserRepository {
     }
 
     @Override
-    public Page<User> findAll(DomainPageRequest pageRequest, ClientFilters clientFilters) {
+    public Page<User> findAll(DomainPageRequest pageRequest, UserFilters filters) {
         return null;
     }
 
