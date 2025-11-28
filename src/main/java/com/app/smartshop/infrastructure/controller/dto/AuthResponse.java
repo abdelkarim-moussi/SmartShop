@@ -1,4 +1,4 @@
-package com.app.smartshop.application.dto.client;
+package com.app.smartshop.infrastructure.client;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

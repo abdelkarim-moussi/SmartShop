@@ -1,4 +1,4 @@
-package com.app.smartshop.application.dto.client;
+package com.app.smartshop.infrastructure.client;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

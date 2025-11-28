@@ -1,4 +1,4 @@
-package com.app.smartshop.application.dto.client;
+package com.app.smartshop.domain.model.search;
 
 import lombok.*;
 
