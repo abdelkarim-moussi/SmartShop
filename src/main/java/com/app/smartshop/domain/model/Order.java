@@ -81,5 +81,17 @@ public class Order {
                 .setScale(2,RoundingMode.HALF_UP);
     };
 
+    public void rejectOrder(){
+        this.status = OrderStatus.REJECTED;
+    }
+
+    public boolean isCompletelyPaid(){
+        return restAmount.compareTo(BigDecimal.ZERO) == 0;
+    }
+
+    public boolean canBeConfirmed(){
+        return status == OrderStatus.PENDING && isCompletelyPaid();
+    }
+
 
 }
