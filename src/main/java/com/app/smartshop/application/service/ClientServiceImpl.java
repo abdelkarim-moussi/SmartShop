@@ -1,17 +1,17 @@
 package com.app.smartshop.application.service;
 
-import com.app.smartshop.infrastructure.controller.dto.ClientRequestDTO;
-import com.app.smartshop.infrastructure.controller.dto.ClientResponseDTO;
+import com.app.smartshop.application.dto.ClientRequestDTO;
+import com.app.smartshop.application.dto.ClientResponseDTO;
 import com.app.smartshop.domain.model.search.ClientCriteria;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.EmailAleadyUsedException;
 import com.app.smartshop.application.exception.InvalidParameterException;
-import com.app.smartshop.infrastructure.controller.mapper.ClientModelDTOMapper;
+import com.app.smartshop.application.mapper.ClientModelDTOMapper;
 import com.app.smartshop.domain.enums.LoyaltyLevel;
 import com.app.smartshop.domain.model.Client;
 import com.app.smartshop.domain.repository.IClientRepository;
-import com.app.smartshop.infrastructure.controller.dto.Page;
-import com.app.smartshop.infrastructure.controller.dto.DomainPageRequest;
+import com.app.smartshop.application.dto.Page;
+import com.app.smartshop.application.dto.DomainPageRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

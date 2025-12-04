@@ -1,4 +1,4 @@
-package com.app.smartshop.infrastructure.controller.dto;
+package com.app.smartshop.application.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

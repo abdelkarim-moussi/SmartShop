@@ -1,10 +1,10 @@
 package com.app.smartshop.application.service;
 
-import com.app.smartshop.infrastructure.controller.dto.ClientRequestDTO;
-import com.app.smartshop.infrastructure.controller.dto.ClientResponseDTO;
+import com.app.smartshop.application.dto.ClientRequestDTO;
+import com.app.smartshop.application.dto.ClientResponseDTO;
 import com.app.smartshop.domain.model.search.ClientCriteria;
-import com.app.smartshop.infrastructure.controller.dto.Page;
-import com.app.smartshop.infrastructure.controller.dto.DomainPageRequest;
+import com.app.smartshop.application.dto.Page;
+import com.app.smartshop.application.dto.DomainPageRequest;
 
 public interface IClientService {
     ClientResponseDTO createClient(ClientRequestDTO client);

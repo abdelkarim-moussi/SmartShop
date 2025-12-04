@@ -1,7 +1,7 @@
 package com.app.smartshop.infrastructure.controller;
 
-import com.app.smartshop.infrastructure.controller.dto.AuthRequest;
-import com.app.smartshop.infrastructure.controller.dto.RegisterRequest;
+import com.app.smartshop.application.dto.AuthRequest;
+import com.app.smartshop.application.dto.RegisterRequest;
 import com.app.smartshop.application.service.IAuthService;
 import com.app.smartshop.application.util.LoginResult;
 import com.app.smartshop.application.util.SessionManager;

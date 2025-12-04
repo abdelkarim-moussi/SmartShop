@@ -1,7 +1,7 @@
-package com.app.smartshop.infrastructure.controller.mapper;
+package com.app.smartshop.application.mapper;
 
-import com.app.smartshop.infrastructure.controller.dto.ClientRequestDTO;
-import com.app.smartshop.infrastructure.controller.dto.ClientResponseDTO;
+import com.app.smartshop.application.dto.ClientRequestDTO;
+import com.app.smartshop.application.dto.ClientResponseDTO;
 import com.app.smartshop.domain.model.Client;
 import org.mapstruct.Mapper;
 

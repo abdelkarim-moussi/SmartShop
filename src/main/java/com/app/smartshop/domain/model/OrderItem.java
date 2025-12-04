@@ -1,16 +1,15 @@
 package com.app.smartshop.domain.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class OrderItem {
     private String id;
     private Product product;
@@ -22,6 +21,6 @@ public class OrderItem {
         if(unitPrice == null || quantity <= 0){
             return BigDecimal.ZERO;
         }
-        return unitPrice.multiply(BigDecimal.valueOf(quantity));
+        return unitPrice.multiply(BigDecimal.valueOf(quantity)).setScale(2, RoundingMode.HALF_UP);
     };
 }

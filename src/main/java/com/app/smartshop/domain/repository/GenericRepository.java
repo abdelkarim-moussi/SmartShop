@@ -1,7 +1,7 @@
 package com.app.smartshop.domain.repository;
 
-import com.app.smartshop.infrastructure.controller.dto.DomainPageRequest;
-import com.app.smartshop.infrastructure.controller.dto.Page;
+import com.app.smartshop.application.dto.DomainPageRequest;
+import com.app.smartshop.application.dto.Page;
 
 import java.util.Optional;
 

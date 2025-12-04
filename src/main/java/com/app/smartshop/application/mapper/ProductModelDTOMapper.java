@@ -1,6 +1,6 @@
-package com.app.smartshop.infrastructure.controller.mapper;
-import com.app.smartshop.infrastructure.controller.dto.ProductRequestDTO;
-import com.app.smartshop.infrastructure.controller.dto.ProductResponseDTO;
+package com.app.smartshop.application.mapper;
+import com.app.smartshop.application.dto.ProductRequestDTO;
+import com.app.smartshop.application.dto.ProductResponseDTO;
 import com.app.smartshop.domain.model.Product;
 import org.mapstruct.Mapper;
 
