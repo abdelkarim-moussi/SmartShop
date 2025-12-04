@@ -1,13 +1,15 @@
 package com.app.smartshop.application.service;
+import com.app.smartshop.application.dto.OrderRequestDTO;
+import com.app.smartshop.application.dto.OrderResponseDTO;
 import com.app.smartshop.domain.model.Order;
 import com.app.smartshop.domain.model.search.OrderCriteria;
-import com.app.smartshop.infrastructure.controller.dto.DomainPageRequest;
-import com.app.smartshop.infrastructure.controller.dto.Page;
+import com.app.smartshop.application.dto.DomainPageRequest;
+import com.app.smartshop.application.dto.Page;
 
 public interface IOrderService {
-    Order createOrder(Order order);
-    Order updateOrder(String id,Order order);
-    Order findOrderById(String id);
+    OrderResponseDTO createOrder(OrderRequestDTO order);
+    OrderResponseDTO updateOrder(String id,OrderRequestDTO order);
+    OrderResponseDTO findOrderById(String id);
     void deleteOrderById(String id);
-    Page<Order> findAllOrders(DomainPageRequest domainPageRequest, OrderCriteria filters);
+    Page<OrderResponseDTO> findAllOrders(DomainPageRequest domainPageRequest, OrderCriteria filters);
 }
