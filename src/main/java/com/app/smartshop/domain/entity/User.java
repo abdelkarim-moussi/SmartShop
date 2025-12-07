@@ -1,10 +1,6 @@
-package com.app.smartshop.infrastructure.persistence.entity;
-
+package com.app.smartshop.domain.entity;
 import com.app.smartshop.domain.enums.UserRole;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Entity
@@ -14,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserEntity {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;

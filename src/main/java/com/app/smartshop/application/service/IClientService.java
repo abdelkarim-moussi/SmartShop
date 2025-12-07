@@ -2,7 +2,7 @@ package com.app.smartshop.application.service;
 
 import com.app.smartshop.application.dto.ClientRequestDTO;
 import com.app.smartshop.application.dto.ClientResponseDTO;
-import com.app.smartshop.domain.model.search.ClientCriteria;
+import com.app.smartshop.domain.entity.search.ClientCriteria;
 import com.app.smartshop.application.dto.Page;
 import com.app.smartshop.application.dto.DomainPageRequest;
 

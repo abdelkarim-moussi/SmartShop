@@ -2,7 +2,7 @@ package com.app.smartshop.infrastructure.httpRequestsFilter;
 
 import com.app.smartshop.application.util.LoginResult;
 import com.app.smartshop.domain.enums.UserRole;
-import com.app.smartshop.domain.model.User;
+import com.app.smartshop.domain.entity.User;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;

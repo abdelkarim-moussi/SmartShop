@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1765053473027-1
+      author: abdelkarim
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnDataType: VARCHAR(255)
+            columnName: order_id
+            tableName: order_items
+            validate: true
+

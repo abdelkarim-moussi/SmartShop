@@ -1,5 +1,6 @@
 package com.app.smartshop.infrastructure.exceptionHandler;
 
+import com.app.smartshop.application.exception.BusinessRuleException;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.EmailAleadyUsedException;
 import com.app.smartshop.application.exception.ProductExistByNameException;
@@ -48,5 +49,20 @@ public class GlobalExceptionHandler {
                 .build();
 
         return ResponseEntity.status(409).body(response);
+    }
+
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<ExceptionResponse> handleBusinessRuleException(
+            BusinessRuleException exception,
+            WebRequest request){
+
+        ExceptionResponse response = ExceptionResponse.builder()
+                .status(422)
+                .error("insuffisant stock")
+                .message(exception.getMessage())
+                .path(request.getDescription(false))
+                .build();
+
+        return ResponseEntity.status(422).body(response);
     }
 }

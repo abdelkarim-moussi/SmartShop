@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1765041784852-1
+      author: abdelkarim
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropNotNullConstraint:
+            columnDataType: varchar(255)
+            columnName: promotion_code
+            tableName: orders
+

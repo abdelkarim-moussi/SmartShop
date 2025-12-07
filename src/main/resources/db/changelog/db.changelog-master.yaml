@@ -6,3 +6,13 @@ databaseChangeLog:
       file: db/changelog/2025/11/change-data-types-changelog.yaml
   - include:
       file: db/changelog/2025/11/27-01-create-products-table-changelog.yaml
+  - include:
+      file: db/changelog/2025/12/06-01-changelog.yaml
+  - include:
+      file: db/changelog/2025/12/06-02-changelog.yaml
+  - include:
+      file: db/changelog/2025/12/06-03-changelog.yaml
+  - include:
+      file: db/changelog/2025/12/06-04-changelog.yaml
+  - include:
+      file: db/changelog/2025/12/07-01-changelog.yaml

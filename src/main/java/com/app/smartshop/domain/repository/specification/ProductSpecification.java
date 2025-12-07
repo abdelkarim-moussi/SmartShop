@@ -1,7 +1,7 @@
-package com.app.smartshop.infrastructure.persistence.repository.specification;
+package com.app.smartshop.domain.repository.specification;
 
-import com.app.smartshop.domain.model.search.ProductCriteria;
-import com.app.smartshop.infrastructure.persistence.entity.ProductEntity;
+import com.app.smartshop.domain.entity.Product;
+import com.app.smartshop.domain.entity.search.ProductCriteria;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductSpecification {
-    public static Specification<ProductEntity> byFilters(ProductCriteria filters){
+    public static Specification<Product> byFilters(ProductCriteria filters){
 
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();

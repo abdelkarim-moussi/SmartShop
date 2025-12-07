@@ -2,8 +2,8 @@ package com.app.smartshop.application.service;
 import com.app.smartshop.application.util.LoginResult;
 import com.app.smartshop.application.util.SessionManager;
 import com.app.smartshop.domain.enums.UserRole;
-import com.app.smartshop.domain.model.User;
-import com.app.smartshop.domain.repository.IUserRepository;
+import com.app.smartshop.domain.entity.User;
+import com.app.smartshop.domain.repository.JpaUserRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Transactional
 @RequiredArgsConstructor
 public class AuthServiceImpl implements IAuthService{
-    private final IUserRepository userRepository;
+    private final JpaUserRepository userRepository;
 
     public LoginResult login(String userName, String password, boolean rememberMe){
         User user = userRepository.findByUserName(userName).orElseThrow(

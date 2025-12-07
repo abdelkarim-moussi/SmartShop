@@ -1,6 +1,6 @@
 package com.app.smartshop.infrastructure.controller;
 
-import com.app.smartshop.domain.model.search.ProductCriteria;
+import com.app.smartshop.domain.entity.search.ProductCriteria;
 import com.app.smartshop.application.dto.ProductRequestDTO;
 import com.app.smartshop.application.dto.ProductResponseDTO;
 import com.app.smartshop.application.service.IProductService;

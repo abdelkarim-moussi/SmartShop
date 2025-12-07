@@ -1,25 +1,30 @@
 package com.app.smartshop.application.service;
 
-import com.app.smartshop.domain.model.search.ProductCriteria;
+import com.app.smartshop.domain.entity.search.ProductCriteria;
 import com.app.smartshop.application.dto.ProductRequestDTO;
 import com.app.smartshop.application.dto.ProductResponseDTO;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.InvalidParameterException;
 import com.app.smartshop.application.exception.ProductExistByNameException;
 import com.app.smartshop.application.mapper.ProductModelDTOMapper;
-import com.app.smartshop.domain.model.Product;
-import com.app.smartshop.domain.repository.IProductRepository;
+import com.app.smartshop.domain.entity.Product;
 import com.app.smartshop.application.dto.DomainPageRequest;
 import com.app.smartshop.application.dto.Page;
+import com.app.smartshop.domain.repository.JpaProductRepository;
+import com.app.smartshop.domain.repository.specification.ProductSpecification;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
 @AllArgsConstructor
 public class ProductServiceImpl implements IProductService{
-    private final IProductRepository productRepository;
+    private final JpaProductRepository productRepository;
     private final ProductModelDTOMapper mapper;
 
     @Override
@@ -33,7 +38,7 @@ public class ProductServiceImpl implements IProductService{
             throw new ProductExistByNameException("there is already a product with this name: "+product.getName()+"\ntry to increase the stock instead ");
         }
 
-        Product savedProduct = productRepository.save(mapper.toDomainModel(product));
+        Product savedProduct = productRepository.save(mapper.toEntity(product));
 
         return mapper.toResponseDTO(savedProduct);
     }
@@ -52,7 +57,7 @@ public class ProductServiceImpl implements IProductService{
         existProduct.setStock(product.getStock());
         product.setUnitPrice(product.getUnitPrice());
 
-        Product updatedProduct = productRepository.update(existProduct);
+        Product updatedProduct = productRepository.save(existProduct);
         return mapper.toResponseDTO(updatedProduct);
     }
 
@@ -84,10 +89,14 @@ public class ProductServiceImpl implements IProductService{
 
     @Override
     public Page<ProductResponseDTO> findAllProducts(DomainPageRequest domainPageRequest, ProductCriteria filters) {
-        Page<Product> page = productRepository.findAll(domainPageRequest,filters);
+        Specification<Product> specification = ProductSpecification.byFilters(filters);
+
+        Pageable pageable = PageRequest.of(domainPageRequest.getPage(),domainPageRequest.getSize(), Sort.Direction.valueOf(domainPageRequest.getSortBy()));
+
+        org.springframework.data.domain.Page<Product> page = productRepository.findAll(specification,pageable);
 
         return new Page<>(
-                page.getItems().stream().map(mapper::toResponseDTO).toList(),
+                page.getContent().stream().map(mapper::toResponseDTO).toList(),
                 page.getTotalElements(),
                 page.getTotalPages()
         );

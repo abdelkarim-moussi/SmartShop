@@ -1,0 +1,132 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1765040688595-4
+      author: abdelkarim
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_order_items
+                  name: id
+                  type: VARCHAR(255)
+              - column:
+                  name: product_id
+                  type: VARCHAR(255)
+              - column:
+                  name: order_id
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: quantity
+                  type: INT
+              - column:
+                  name: unit_price
+                  type: DECIMAL
+              - column:
+                  name: total_line
+                  type: DECIMAL
+            tableName: order_items
+  - changeSet:
+      id: 1765040688595-5
+      author: abdelkarim
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_orders
+                  name: id
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: date
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: sub_total
+                  type: DECIMAL
+              - column:
+                  constraints:
+                    nullable: false
+                  name: discount
+                  type: DECIMAL
+              - column:
+                  constraints:
+                    nullable: false
+                  name: tva
+                  type: DECIMAL
+              - column:
+                  constraints:
+                    nullable: false
+                  name: total
+                  type: DECIMAL
+              - column:
+                  constraints:
+                    nullable: false
+                  name: promotion_code
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: SMALLINT
+              - column:
+                  name: rest_amount
+                  type: DECIMAL
+              - column:
+                  name: client_id
+                  type: VARCHAR(255)
+            tableName: orders
+  - changeSet:
+      id: 1765040688595-6
+      author: abdelkarim
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: client_id
+            baseTableName: orders
+            constraintName: FK_ORDERS_ON_CLIENT
+            referencedColumnNames: id
+            referencedTableName: clients
+  - changeSet:
+      id: 1765040688595-7
+      author: abdelkarim
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: order_id
+            baseTableName: order_items
+            constraintName: FK_ORDER_ITEMS_ON_ORDER
+            referencedColumnNames: id
+            referencedTableName: orders
+  - changeSet:
+      id: 1765040688595-8
+      author: abdelkarim
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: product_id
+            baseTableName: order_items
+            constraintName: FK_ORDER_ITEMS_ON_PRODUCT
+            referencedColumnNames: id
+            referencedTableName: products
+  - changeSet:
+      id: 1765040688595-1
+      author: abdelkarim
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - modifyDataType:
+            columnName: password
+            newDataType: VARCHAR(255)
+            tableName: users
+

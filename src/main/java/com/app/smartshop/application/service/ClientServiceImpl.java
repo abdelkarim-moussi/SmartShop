@@ -2,25 +2,30 @@ package com.app.smartshop.application.service;
 
 import com.app.smartshop.application.dto.ClientRequestDTO;
 import com.app.smartshop.application.dto.ClientResponseDTO;
-import com.app.smartshop.domain.model.search.ClientCriteria;
+import com.app.smartshop.domain.entity.search.ClientCriteria;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.EmailAleadyUsedException;
 import com.app.smartshop.application.exception.InvalidParameterException;
 import com.app.smartshop.application.mapper.ClientModelDTOMapper;
 import com.app.smartshop.domain.enums.LoyaltyLevel;
-import com.app.smartshop.domain.model.Client;
-import com.app.smartshop.domain.repository.IClientRepository;
+import com.app.smartshop.domain.entity.Client;
 import com.app.smartshop.application.dto.Page;
 import com.app.smartshop.application.dto.DomainPageRequest;
+import com.app.smartshop.domain.repository.JpaClientRepository;
+import com.app.smartshop.domain.repository.specification.ClientSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ClientServiceImpl implements IClientService{
-    private final IClientRepository clientRepository;
+    private final JpaClientRepository clientRepository;
     private final ClientModelDTOMapper clientModelDTOMapper;
 
 
@@ -35,7 +40,7 @@ public class ClientServiceImpl implements IClientService{
             throw new EmailAleadyUsedException("there is already a client with this email : "+clientRequestDTO.getEmail());
         }
 
-        Client client = clientModelDTOMapper.toDomainModel(clientRequestDTO);
+        Client client = clientModelDTOMapper.toEntity(clientRequestDTO);
         client.setLoyaltyLevel(LoyaltyLevel.BASIC);
 
         Client savedClient = clientRepository.save(client);
@@ -61,7 +66,7 @@ public class ClientServiceImpl implements IClientService{
         existClient.setEmail(client.getEmail());
         existClient.setName(client.getName());
 
-        Client updatedClient = clientRepository.update(existClient);
+        Client updatedClient = clientRepository.save(existClient);
         return clientModelDTOMapper.toResponseDTO(updatedClient);
     }
 
@@ -90,14 +95,16 @@ public class ClientServiceImpl implements IClientService{
 
         clientRepository.deleteById(id);
 
-
     }
 
     @Override
-    public Page<ClientResponseDTO> findAllClients(DomainPageRequest domainPageRequest, ClientCriteria clientCriteria) {
-        Page<Client> clients = clientRepository.findAll(domainPageRequest, clientCriteria);
+    public Page<ClientResponseDTO> findAllClients(DomainPageRequest domainPageRequest, ClientCriteria filters) {
+        Pageable pageable = PageRequest.of(domainPageRequest.getPage(),domainPageRequest.getSize(), Sort.Direction.valueOf(domainPageRequest.getSortBy()));
+
+        Specification<Client> specification = ClientSpecification.byFilters(filters);
+        org.springframework.data.domain.Page<Client> clients = clientRepository.findAll(specification,pageable);
         return new Page<>(
-                clients.getItems().stream().map(clientModelDTOMapper::toResponseDTO).toList(),
+                clients.getContent().stream().map(clientModelDTOMapper::toResponseDTO).toList(),
                 clients.getTotalElements(),
                 clients.getTotalPages()
         );

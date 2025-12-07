@@ -1,8 +1,11 @@
-package com.app.smartshop.infrastructure.persistence.entity;
+package com.app.smartshop.domain.entity;
 
 import com.app.smartshop.domain.enums.LoyaltyLevel;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -11,7 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Table(name = "clients")
-public class ClientEntity {
+public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -22,4 +25,6 @@ public class ClientEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "loyalty_level",nullable = false)
     private LoyaltyLevel loyaltyLevel;
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
 }

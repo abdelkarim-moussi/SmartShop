@@ -1,6 +1,6 @@
 package com.app.smartshop.application.util;
 
-import com.app.smartshop.domain.model.User;
+import com.app.smartshop.domain.entity.User;
 import lombok.*;
 
 @Getter

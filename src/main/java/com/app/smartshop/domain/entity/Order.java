@@ -1,6 +1,7 @@
-package com.app.smartshop.domain.model;
+package com.app.smartshop.domain.entity;
 
 import com.app.smartshop.domain.enums.OrderStatus;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -11,28 +12,41 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "orders")
 public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+    @Column(name = "date",nullable = false)
     private LocalDateTime date;
+    @Column(name = "sub_total",nullable = false)
     private BigDecimal subtotal;
+    @Column(nullable = false)
     private BigDecimal discount;
+    @Column(nullable = false)
     private BigDecimal tva;
+    @Column(nullable = false)
     private BigDecimal total;
     private String promotionCode;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
     private BigDecimal restAmount;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
     private Client client;
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> itemsList = new ArrayList<>();
 
-
     public void calculateAmounts(){
-        BigDecimal subtotal = calculateSubTotal();
-        BigDecimal totalDiscount = calculateTotalDiscount();
+        this.subtotal = calculateSubTotal();
+        this.discount = calculateTotalDiscount();
 
-        BigDecimal amountAfterDiscount = subtotal.subtract(totalDiscount);
+        BigDecimal amountAfterDiscount = subtotal.subtract(this.discount);
         this.tva = amountAfterDiscount.multiply(BigDecimal.valueOf(0.20))
                 .setScale(2,RoundingMode.HALF_UP);
 
@@ -91,6 +105,14 @@ public class Order {
 
     public boolean canBeConfirmed(){
         return status == OrderStatus.PENDING && isCompletelyPaid();
+    }
+
+    public void addItem(OrderItem item){
+        if(this.itemsList == null){
+            this.itemsList = new ArrayList<>();
+        }
+        item.setOrder(this);
+        this.itemsList.add(item);
     }
 
 
