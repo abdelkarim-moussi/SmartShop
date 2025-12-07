@@ -58,7 +58,22 @@ public class GlobalExceptionHandler {
 
         ExceptionResponse response = ExceptionResponse.builder()
                 .status(422)
-                .error("insuffisant stock")
+                .error("a business rule is broken")
+                .message(exception.getMessage())
+                .path(request.getDescription(false))
+                .build();
+
+        return ResponseEntity.status(422).body(response);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ExceptionResponse> handleIllegalArgumentException(
+            IllegalArgumentException exception,
+            WebRequest request){
+
+        ExceptionResponse response = ExceptionResponse.builder()
+                .status(422)
+                .error("unacceptable argument is provided")
                 .message(exception.getMessage())
                 .path(request.getDescription(false))
                 .build();
