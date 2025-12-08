@@ -9,9 +9,9 @@ import com.app.smartshop.application.exception.ProductExistByNameException;
 import com.app.smartshop.application.mapper.ProductMapper;
 import com.app.smartshop.domain.entity.Product;
 import com.app.smartshop.application.dto.DomainPageRequest;
-import com.app.smartshop.application.dto.Page;
 import com.app.smartshop.domain.repository.JpaProductRepository;
 import com.app.smartshop.domain.repository.specification.ProductSpecification;
+import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements IProductService{
     private final JpaProductRepository productRepository;
     private final ProductMapper mapper;
+    private final ProductMapper productMapper;
 
     @Override
     public ProductResponseDTO createProduct(ProductRequestDTO product) {
@@ -90,17 +91,18 @@ public class ProductServiceImpl implements IProductService{
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ProductResponseDTO> findAllProducts(DomainPageRequest domainPageRequest, ProductCriteria filters) {
+    public Page<ProductResponseDTO> findAllProducts(DomainPageRequest pageRequest, ProductCriteria filters) {
+
+        Sort sortDir = pageRequest.getSortDir().equalsIgnoreCase("desc")
+                ? Sort.by(pageRequest.getSortBy()).descending()
+                : Sort.by(pageRequest.getSortBy()).ascending();
+
+        Pageable pageable = PageRequest.of(pageRequest.getPage(),pageRequest.getSize(),sortDir);
+
         Specification<Product> specification = ProductSpecification.byFilters(filters);
 
-        Pageable pageable = PageRequest.of(domainPageRequest.getPage(),domainPageRequest.getSize(), Sort.Direction.valueOf(domainPageRequest.getSortBy()));
+        Page<Product> page = productRepository.findAll(specification,pageable);
 
-        org.springframework.data.domain.Page<Product> page = productRepository.findAll(specification,pageable);
-
-        return new Page<>(
-                page.getContent().stream().map(mapper::toResponseDTO).toList(),
-                page.getTotalElements(),
-                page.getTotalPages()
-        );
+        return page.map(productMapper::toResponseDTO);
     }
 }

@@ -3,8 +3,6 @@ package com.app.smartshop.application.dto.client;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Getter
 @Setter
