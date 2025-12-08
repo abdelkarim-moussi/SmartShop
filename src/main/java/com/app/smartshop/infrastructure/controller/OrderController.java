@@ -5,8 +5,7 @@ import com.app.smartshop.application.dto.OrderResponseDTO;
 import com.app.smartshop.application.dto.PaymentRequestDTO;
 import com.app.smartshop.application.dto.PaymentResponseDTO;
 import com.app.smartshop.application.service.IOrderService;
-import com.app.smartshop.application.service.IPaymentService;
-import com.app.smartshop.application.service.PayOrder;
+import com.app.smartshop.application.service.payment.PayOrder;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +30,15 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/confirm")
+    @PutMapping("/confirm")
     private ResponseEntity<OrderResponseDTO> confirmOrder(@RequestParam (value = "id") String id){
         OrderResponseDTO response = orderService.confirmOrder(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/cancel")
+    private ResponseEntity<OrderResponseDTO> cancelOrder(@RequestParam (value = "id") String id){
+        OrderResponseDTO response = orderService.cancelOrder(id);
         return ResponseEntity.ok(response);
     }
 }
