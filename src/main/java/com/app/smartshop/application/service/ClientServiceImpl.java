@@ -2,6 +2,7 @@ package com.app.smartshop.application.service;
 
 import com.app.smartshop.application.dto.ClientRequestDTO;
 import com.app.smartshop.application.dto.ClientResponseDTO;
+import com.app.smartshop.domain.entity.Order;
 import com.app.smartshop.domain.entity.search.ClientCriteria;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.EmailAleadyUsedException;
@@ -12,8 +13,10 @@ import com.app.smartshop.domain.entity.Client;
 import com.app.smartshop.application.dto.Page;
 import com.app.smartshop.application.dto.DomainPageRequest;
 import com.app.smartshop.domain.repository.JpaClientRepository;
+import com.app.smartshop.domain.repository.JpaOrderRepository;
+import com.app.smartshop.domain.repository.JpaPaymentRepository;
 import com.app.smartshop.domain.repository.specification.ClientSpecification;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,13 +24,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ClientServiceImpl implements IClientService{
     private final JpaClientRepository clientRepository;
     private final ClientModelDTOMapper clientModelDTOMapper;
-
+    private final JpaOrderRepository orderRepository;
+    private final JpaPaymentRepository paymentRepository;
 
     public ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO){
         if(clientRequestDTO == null){
@@ -71,6 +77,7 @@ public class ClientServiceImpl implements IClientService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ClientResponseDTO findClientById(String id) {
 
         if(id == null || id.trim().isEmpty()){
@@ -89,15 +96,15 @@ public class ClientServiceImpl implements IClientService{
             throw new InvalidParameterException("id can not be null or empty");
         }
 
-        Client existClient = clientRepository.findById(id).orElseThrow(
+        clientRepository.findById(id).orElseThrow(
                 () -> new DataNotExistException("there is no client with this id: "+id)
         );
 
         clientRepository.deleteById(id);
-
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<ClientResponseDTO> findAllClients(DomainPageRequest domainPageRequest, ClientCriteria filters) {
         Pageable pageable = PageRequest.of(domainPageRequest.getPage(),domainPageRequest.getSize(), Sort.Direction.valueOf(domainPageRequest.getSortBy()));
 
@@ -109,4 +116,5 @@ public class ClientServiceImpl implements IClientService{
                 clients.getTotalPages()
         );
     }
+
 }
