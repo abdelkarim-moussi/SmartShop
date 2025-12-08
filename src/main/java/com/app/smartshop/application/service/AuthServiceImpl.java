@@ -9,10 +9,10 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements IAuthService{
     private final JpaUserRepository userRepository;
 
+    @Transactional(readOnly = true)
     public LoginResult login(String userName, String password, boolean rememberMe){
         User user = userRepository.findByUserName(userName).orElseThrow(
                 ()-> new EntityNotFoundException("there is no User with this data "+"username : "+userName+"/ password : "+password)
@@ -60,6 +61,7 @@ public class AuthServiceImpl implements IAuthService{
         return "user created successfully";
     }
 
+    @Transactional(readOnly = true)
     public void logout(HttpServletRequest request, HttpServletResponse response){
         Cookie cookie = SessionManager.destroySession(request,response);
         response.addCookie(cookie);

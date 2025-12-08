@@ -10,9 +10,9 @@ import com.app.smartshop.domain.enums.OrderStatus;
 import com.app.smartshop.domain.repository.JpaClientRepository;
 import com.app.smartshop.domain.repository.JpaOrderRepository;
 import com.app.smartshop.domain.repository.JpaProductRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -30,6 +30,7 @@ public class OrderServiceImpl implements IOrderService {
     private final JpaProductRepository productRepository;
     private final JpaOrderRepository orderRepository;
     private final OrderModelDTOMapper orderMapper;
+    private final ILoyaltyService loyaltyService;
 
     @Override
     public OrderResponseDTO createOrder(OrderRequestDTO order) {
@@ -62,6 +63,7 @@ public class OrderServiceImpl implements IOrderService {
 
         updateProductStock(newOrder);
         Order savedOrder = orderRepository.save(newOrder);
+        loyaltyService.assignLoyaltyLevel(savedOrder.getClient().getId());
 
         return orderMapper.toResponseDto(savedOrder);
     }
@@ -100,8 +102,11 @@ public class OrderServiceImpl implements IOrderService {
 
             int quantity = item.getQuantity();
 
-            product.decrementStock(quantity);
-            productRepository.save(product);
+            if(order.getStatus().equals(OrderStatus.REJECTED) || order.getStatus().equals(OrderStatus.CANCELED)){
+                product.incrementStock(quantity);
+            }else {
+                product.decrementStock(quantity);
+            }
         }
     }
 
@@ -139,9 +144,10 @@ public class OrderServiceImpl implements IOrderService {
         }
 
         order.setStatus(OrderStatus.CANCELED);
-
-        return orderMapper.toResponseDto(order);
+        updateProductStock(order);
+        return orderMapper.toResponseDto(orderRepository.save(order));
     }
+
 
     private boolean validatePromoCode(String promoCode){
         if(promoCode != null && !promoCode.isEmpty()){

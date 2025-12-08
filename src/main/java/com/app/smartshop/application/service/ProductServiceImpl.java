@@ -12,7 +12,7 @@ import com.app.smartshop.application.dto.DomainPageRequest;
 import com.app.smartshop.application.dto.Page;
 import com.app.smartshop.domain.repository.JpaProductRepository;
 import com.app.smartshop.domain.repository.specification.ProductSpecification;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -62,6 +62,7 @@ public class ProductServiceImpl implements IProductService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ProductResponseDTO findProductById(String id) {
         if(id == null || id.trim().isEmpty()){
             throw new InvalidParameterException("id can not be null or empty");
@@ -88,6 +89,7 @@ public class ProductServiceImpl implements IProductService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<ProductResponseDTO> findAllProducts(DomainPageRequest domainPageRequest, ProductCriteria filters) {
         Specification<Product> specification = ProductSpecification.byFilters(filters);
 

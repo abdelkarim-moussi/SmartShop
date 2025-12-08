@@ -32,4 +32,12 @@ public class Product {
             this.stock -= demandedQuantity;
         }
     }
+
+    public void incrementStock(int returnedQuantity){
+        if(returnedQuantity > 0){
+            this.stock += returnedQuantity;
+        }
+    }
+
+
 }
