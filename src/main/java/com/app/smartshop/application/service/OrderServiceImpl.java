@@ -4,7 +4,7 @@ import com.app.smartshop.application.dto.*;
 import com.app.smartshop.application.exception.BusinessRuleException;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.InvalidParameterException;
-import com.app.smartshop.application.mapper.OrderModelDTOMapper;
+import com.app.smartshop.application.mapper.OrderMapper;
 import com.app.smartshop.domain.entity.*;
 import com.app.smartshop.domain.enums.OrderStatus;
 import com.app.smartshop.domain.repository.JpaClientRepository;
@@ -29,7 +29,7 @@ public class OrderServiceImpl implements IOrderService {
     private final JpaClientRepository clientRepository;
     private final JpaProductRepository productRepository;
     private final JpaOrderRepository orderRepository;
-    private final OrderModelDTOMapper orderMapper;
+    private final OrderMapper orderMapper;
     private final ILoyaltyService loyaltyService;
 
     @Override

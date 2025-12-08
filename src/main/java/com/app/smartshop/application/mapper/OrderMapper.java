@@ -6,7 +6,7 @@ import com.app.smartshop.domain.entity.Order;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface OrderModelDTOMapper {
+public interface OrderMapper {
     Order toEntity(OrderRequestDTO dto);
     OrderResponseDTO toResponseDto(Order model);
 }

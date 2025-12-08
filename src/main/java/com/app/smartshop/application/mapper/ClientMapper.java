@@ -6,7 +6,7 @@ import com.app.smartshop.domain.entity.Client;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface ClientModelDTOMapper {
+public interface ClientMapper {
     Client toEntity(ClientRequestDTO dto);
     ClientResponseDTO toResponseDTO(Client domainModel);
 }

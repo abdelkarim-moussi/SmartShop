@@ -1,20 +1,18 @@
 package com.app.smartshop.application.service;
 
-import com.app.smartshop.application.dto.ClientRequestDTO;
-import com.app.smartshop.application.dto.ClientResponseDTO;
+import com.app.smartshop.application.dto.*;
+import com.app.smartshop.application.mapper.ClientOrderMapper;
+import com.app.smartshop.application.mapper.OrderMapper;
 import com.app.smartshop.domain.entity.Order;
 import com.app.smartshop.domain.entity.search.ClientCriteria;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.EmailAleadyUsedException;
 import com.app.smartshop.application.exception.InvalidParameterException;
-import com.app.smartshop.application.mapper.ClientModelDTOMapper;
+import com.app.smartshop.application.mapper.ClientMapper;
 import com.app.smartshop.domain.enums.LoyaltyLevel;
 import com.app.smartshop.domain.entity.Client;
-import com.app.smartshop.application.dto.Page;
-import com.app.smartshop.application.dto.DomainPageRequest;
 import com.app.smartshop.domain.repository.JpaClientRepository;
 import com.app.smartshop.domain.repository.JpaOrderRepository;
-import com.app.smartshop.domain.repository.JpaPaymentRepository;
 import com.app.smartshop.domain.repository.specification.ClientSpecification;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +29,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClientServiceImpl implements IClientService{
     private final JpaClientRepository clientRepository;
-    private final ClientModelDTOMapper clientModelDTOMapper;
+    private final ClientMapper clientMapper;
     private final JpaOrderRepository orderRepository;
-    private final JpaPaymentRepository paymentRepository;
+    private final ClientOrderMapper clientOrderMapper;
 
     public ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO){
         if(clientRequestDTO == null){
@@ -46,12 +44,12 @@ public class ClientServiceImpl implements IClientService{
             throw new EmailAleadyUsedException("there is already a client with this email : "+clientRequestDTO.getEmail());
         }
 
-        Client client = clientModelDTOMapper.toEntity(clientRequestDTO);
+        Client client = clientMapper.toEntity(clientRequestDTO);
         client.setLoyaltyLevel(LoyaltyLevel.BASIC);
 
         Client savedClient = clientRepository.save(client);
 
-        return clientModelDTOMapper.toResponseDTO(savedClient);
+        return clientMapper.toResponseDTO(savedClient);
     }
 
     @Override
@@ -73,7 +71,7 @@ public class ClientServiceImpl implements IClientService{
         existClient.setName(client.getName());
 
         Client updatedClient = clientRepository.save(existClient);
-        return clientModelDTOMapper.toResponseDTO(updatedClient);
+        return clientMapper.toResponseDTO(updatedClient);
     }
 
     @Override
@@ -87,7 +85,7 @@ public class ClientServiceImpl implements IClientService{
                 ()-> new DataNotExistException("there is no client with this id : "+id)
         );
 
-        return clientModelDTOMapper.toResponseDTO(existClient);
+        return clientMapper.toResponseDTO(existClient);
     }
 
     @Override
@@ -95,11 +93,9 @@ public class ClientServiceImpl implements IClientService{
         if(id == null || id.trim().isEmpty()){
             throw new InvalidParameterException("id can not be null or empty");
         }
-
         clientRepository.findById(id).orElseThrow(
                 () -> new DataNotExistException("there is no client with this id: "+id)
         );
-
         clientRepository.deleteById(id);
     }
 
@@ -111,10 +107,25 @@ public class ClientServiceImpl implements IClientService{
         Specification<Client> specification = ClientSpecification.byFilters(filters);
         org.springframework.data.domain.Page<Client> clients = clientRepository.findAll(specification,pageable);
         return new Page<>(
-                clients.getContent().stream().map(clientModelDTOMapper::toResponseDTO).toList(),
+                clients.getContent().stream().map(clientMapper::toResponseDTO).toList(),
                 clients.getTotalElements(),
                 clients.getTotalPages()
         );
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<ClientOrdersResponse> findClientOrders(String clientId){
+        if(clientId == null || clientId.isEmpty()){
+            throw new InvalidParameterException("id can not be null or empty");
+        }
+
+        Client client = clientRepository.findById(clientId).orElseThrow(
+                ()-> new DataNotExistException("no client exist with this id: "+clientId)
+        );
+        orderRepository.findAllByClient(client);
+        List<Order> clientOrders = orderRepository.findAllByClient(client);
+
+        return clientOrders.stream().map(clientOrderMapper::toResponse).toList();
+    }
 }

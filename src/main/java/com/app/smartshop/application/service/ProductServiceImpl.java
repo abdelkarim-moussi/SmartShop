@@ -6,7 +6,7 @@ import com.app.smartshop.application.dto.ProductResponseDTO;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.InvalidParameterException;
 import com.app.smartshop.application.exception.ProductExistByNameException;
-import com.app.smartshop.application.mapper.ProductModelDTOMapper;
+import com.app.smartshop.application.mapper.ProductMapper;
 import com.app.smartshop.domain.entity.Product;
 import com.app.smartshop.application.dto.DomainPageRequest;
 import com.app.smartshop.application.dto.Page;
@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class ProductServiceImpl implements IProductService{
     private final JpaProductRepository productRepository;
-    private final ProductModelDTOMapper mapper;
+    private final ProductMapper mapper;
 
     @Override
     public ProductResponseDTO createProduct(ProductRequestDTO product) {
