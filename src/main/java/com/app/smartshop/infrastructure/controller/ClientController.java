@@ -78,7 +78,7 @@ public class ClientController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/statistiques")
+    @GetMapping("/statistics")
     private ResponseEntity<ClientStatistiques> findClientStatistiques(@RequestParam (value = "id") String id){
         ClientStatistiques response = clientService.findClientStatistiques(id);
         return ResponseEntity.ok(response);

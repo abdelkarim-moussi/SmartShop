@@ -5,6 +5,7 @@ import com.app.smartshop.application.dto.RegisterRequest;
 import com.app.smartshop.application.service.IAuthService;
 import com.app.smartshop.application.util.LoginResult;
 import com.app.smartshop.application.util.SessionManager;
+import com.app.smartshop.domain.entity.Client;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -22,7 +23,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest registerRequest){
 
-        String success = authService.register(registerRequest.getUserName(),registerRequest.getPassword(), registerRequest.getRole());
+        String success = authService.register(registerRequest.getUserName(),registerRequest.getPassword(), registerRequest.getRole(), Client.builder().build());
 
         if(success.isEmpty()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

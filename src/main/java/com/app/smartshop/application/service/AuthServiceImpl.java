@@ -1,6 +1,7 @@
 package com.app.smartshop.application.service;
 import com.app.smartshop.application.util.LoginResult;
 import com.app.smartshop.application.util.SessionManager;
+import com.app.smartshop.domain.entity.Client;
 import com.app.smartshop.domain.enums.UserRole;
 import com.app.smartshop.domain.entity.User;
 import com.app.smartshop.domain.repository.JpaUserRepository;
@@ -44,7 +45,7 @@ public class AuthServiceImpl implements IAuthService{
 
     }
 
-    public String register(String userName, String password, UserRole role){
+    public String register(String userName, String password, UserRole role, Client client){
         User user = userRepository.findByUserName(userName).orElse(new User());
 
         if(user.getId() != null){
@@ -56,6 +57,9 @@ public class AuthServiceImpl implements IAuthService{
         user.setUserName(userName);
         user.setHashedPassword(hashedPassword);
         user.setRole(role);
+        if(client != null && role.equals(UserRole.CLIENT)){
+            user.setClient(client);
+        }
         userRepository.save(user);
 
         return "user created successfully";

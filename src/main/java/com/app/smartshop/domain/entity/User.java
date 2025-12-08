@@ -21,4 +21,7 @@ public class User {
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "client_id", unique = true, nullable = true)
+    private Client client;
 }

@@ -7,6 +7,7 @@ import com.app.smartshop.application.dto.client.ClientResponseDTO;
 import com.app.smartshop.application.dto.client.ClientStatistiques;
 import com.app.smartshop.application.mapper.ClientOrderMapper;
 import com.app.smartshop.domain.entity.Order;
+import com.app.smartshop.domain.entity.User;
 import com.app.smartshop.domain.entity.search.ClientCriteria;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.EmailAleadyUsedException;
@@ -14,11 +15,12 @@ import com.app.smartshop.application.exception.InvalidParameterException;
 import com.app.smartshop.application.mapper.ClientMapper;
 import com.app.smartshop.domain.enums.LoyaltyLevel;
 import com.app.smartshop.domain.entity.Client;
+import com.app.smartshop.domain.enums.UserRole;
 import com.app.smartshop.domain.repository.JpaClientRepository;
 import com.app.smartshop.domain.repository.JpaOrderRepository;
+import com.app.smartshop.domain.repository.JpaUserRepository;
 import com.app.smartshop.domain.repository.specification.ClientSpecification;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -34,19 +36,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ClientServiceImpl implements IClientService{
     final DateTimeFormatter DATE_FORMATER = DateTimeFormatter.ofPattern("dd-MM-yyyy | HH:mm:ss");
-    private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("name","loyaltyLevel");
-
     private final JpaClientRepository clientRepository;
     private final ClientMapper clientMapper;
     private final JpaOrderRepository orderRepository;
     private final ClientOrderMapper clientOrderMapper;
+    private final IAuthService authService;
 
     public ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO){
         if(clientRequestDTO == null){
@@ -54,7 +54,6 @@ public class ClientServiceImpl implements IClientService{
         }
 
         boolean exist = clientRepository.existsByEmail(clientRequestDTO.getEmail());
-
         if(exist){
             throw new EmailAleadyUsedException("there is already a client with this email : "+clientRequestDTO.getEmail());
         }
@@ -63,6 +62,7 @@ public class ClientServiceImpl implements IClientService{
         client.setLoyaltyLevel(LoyaltyLevel.BASIC);
 
         Client savedClient = clientRepository.save(client);
+        authService.register(clientRequestDTO.getUserName(),clientRequestDTO.getPassword(),UserRole.CLIENT,savedClient);
 
         return clientMapper.toResponseDTO(savedClient);
     }
