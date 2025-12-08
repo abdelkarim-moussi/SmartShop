@@ -16,3 +16,9 @@ databaseChangeLog:
       file: db/changelog/2025/12/06-04-changelog.yaml
   - include:
       file: db/changelog/2025/12/07-01-changelog.yaml
+  - include:
+      file: db/changelog/2025/12/08-01-changelog-create-payments-tables.yaml
+  - include:
+      file: db/changelog/2025/12/08-01-changelog-add-remaining-remove-checkNumber-receipt-Number.yaml
+  - include:
+      file: db/changelog/2025/12/08-01-changelog-update-payment-type-status-datatype-to-string.yaml

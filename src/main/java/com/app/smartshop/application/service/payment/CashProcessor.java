@@ -1,4 +1,4 @@
-package com.app.smartshop.application.service;
+package com.app.smartshop.application.service.payment;
 
 import com.app.smartshop.application.dto.PaymentRequestDTO;
 import com.app.smartshop.domain.enums.PaymentStatus;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 @Service("ESPECES")
-public class CashProcessor implements PaymentProcessor{
+public class CashProcessor implements PaymentProcessor {
     private final BigDecimal LEGAL_LIMIT = BigDecimal.valueOf(20000);
 
     @Override

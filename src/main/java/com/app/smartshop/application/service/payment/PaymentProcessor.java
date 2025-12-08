@@ -1,4 +1,4 @@
-package com.app.smartshop.application.service;
+package com.app.smartshop.application.service.payment;
 
 import com.app.smartshop.application.dto.PaymentRequestDTO;
 import com.app.smartshop.domain.enums.PaymentStatus;

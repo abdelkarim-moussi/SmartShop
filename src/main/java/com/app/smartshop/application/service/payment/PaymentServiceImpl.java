@@ -1,4 +1,4 @@
-package com.app.smartshop.application.service;
+package com.app.smartshop.application.service.payment;
 
 import com.app.smartshop.application.dto.*;
 import com.app.smartshop.application.exception.DataNotExistException;
@@ -15,8 +15,8 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class PaymentServiceImpl implements IPaymentService{
-    private final Map<String,PaymentProcessor> processors;
+public class PaymentServiceImpl implements IPaymentService {
+    private final Map<String, PaymentProcessor> processors;
     private final JpaPaymentRepository paymentRepository;
     private final JpaOrderRepository orderRepository;
     private final PaymentMapper paymentMapper;

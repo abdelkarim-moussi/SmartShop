@@ -1,5 +1,7 @@
 package com.app.smartshop.domain.entity;
 
+import com.app.smartshop.domain.enums.PaymentStatus;
+import com.app.smartshop.domain.enums.PaymentType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +16,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class Payment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -27,5 +28,9 @@ public class Payment {
     private LocalDate dueDate;
     private String reference;
     private String bankName;
-    private String receiptNumber;
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus status;
+    @Enumerated(EnumType.STRING)
+    private PaymentType type;
+    private BigDecimal remaining;
 }
