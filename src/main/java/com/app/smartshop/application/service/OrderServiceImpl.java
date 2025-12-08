@@ -1,14 +1,12 @@
-package com.app.smartshop.application.service.order;
+package com.app.smartshop.application.service;
 
 import com.app.smartshop.application.dto.*;
 import com.app.smartshop.application.exception.BusinessRuleException;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.InvalidParameterException;
 import com.app.smartshop.application.mapper.OrderModelDTOMapper;
-import com.app.smartshop.application.service.IOrderService;
 import com.app.smartshop.domain.entity.*;
 import com.app.smartshop.domain.enums.OrderStatus;
-import com.app.smartshop.domain.entity.search.OrderCriteria;
 import com.app.smartshop.domain.repository.JpaClientRepository;
 import com.app.smartshop.domain.repository.JpaOrderRepository;
 import com.app.smartshop.domain.repository.JpaProductRepository;
