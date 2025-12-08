@@ -1,4 +1,7 @@
 package com.app.smartshop.domain.repository;
 
-public interface JpaPaymentRepository {
+import com.app.smartshop.domain.entity.Payment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface JpaPaymentRepository extends JpaRepository<Payment,String > {
 }
