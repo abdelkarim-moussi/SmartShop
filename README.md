@@ -16,8 +16,8 @@ La persistance est assurée via JPA/Hibernate, avec Liquibase pour la gestion de
 
 🚀 Technologies
 Category	Technology
-Language	Java 17+
-Framework	Spring Boot 3.x
+Language	Java 17
+Framework	Spring Boot 3.5.8
 Persistence	Spring Data JPA / Hibernate
 Database	PostgreSQL
 Migrations	Liquibase
@@ -31,7 +31,7 @@ com.smartshop
 ├── domain
 │   ├── entities
 │   ├── enums
-│   └── repositories (interfaces)
+│   └── repositories (interfaces & implementations)
 │
 ├── application
 │   ├── services (use cases / business logic)
@@ -39,12 +39,10 @@ com.smartshop
 │   └── mapper
 │
 ├── infrastructure
-│   ├── security
-│   ├── config
-│   └── repository (implémentations JPA)
-│
-└── presentation
-└── controller (REST APIs)
+    ├── hhtpRequestFilters
+    ├── config
+    |-- controller 
+
 
 Responsibilities per layer
 
@@ -59,9 +57,9 @@ Presentation: Exposition des APIs REST
 ⚙️ Configuration & Run
 ✅ Prerequisites
 
-Java 17+
+Java 17
 
-Maven 3.x
+Maven 3.5.8
 
 PostgreSQL
 
@@ -78,10 +76,6 @@ spring.liquibase.enabled=true
 
 ▶️ Run the Application
 mvn spring-boot:run
-
-
-Application disponible à :
-📍 http://localhost:8080
 
 🧠 Business Features
 📦 Order Management
