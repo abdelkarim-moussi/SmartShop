@@ -5,11 +5,8 @@ import com.app.smartshop.application.exception.BusinessRuleException;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.InvalidParameterException;
 import com.app.smartshop.application.mapper.OrderModelDTOMapper;
+import com.app.smartshop.domain.entity.*;
 import com.app.smartshop.domain.enums.OrderStatus;
-import com.app.smartshop.domain.entity.Client;
-import com.app.smartshop.domain.entity.Order;
-import com.app.smartshop.domain.entity.OrderItem;
-import com.app.smartshop.domain.entity.Product;
 import com.app.smartshop.domain.entity.search.OrderCriteria;
 import com.app.smartshop.domain.repository.JpaClientRepository;
 import com.app.smartshop.domain.repository.JpaOrderRepository;
@@ -18,7 +15,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,7 +27,7 @@ public class OrderServiceImpl implements IOrderService{
     private final JpaClientRepository clientRepository;
     private final JpaProductRepository productRepository;
     private final JpaOrderRepository orderRepository;
-    private final OrderModelDTOMapper mapper;
+    private final OrderModelDTOMapper orderMapper;
 
     @Override
     public OrderResponseDTO createOrder(OrderRequestDTO order) {
@@ -59,7 +56,7 @@ public class OrderServiceImpl implements IOrderService{
 
         Order savedOrder = orderRepository.save(newOrder);
 
-        return mapper.toResponseDto(savedOrder);
+        return orderMapper.toResponseDto(savedOrder);
     }
 
     private List<OrderItem> mapAndProcessOrderItems(List<OrderItemRequestDTO> items, Order order){
@@ -99,6 +96,25 @@ public class OrderServiceImpl implements IOrderService{
             product.decrementStock(quantity);
             productRepository.save(product);
         }
+    }
+
+    @Override
+    public OrderResponseDTO confirmOrder(String orderId){
+        if(orderId == null || orderId.isEmpty()){
+            throw new InvalidParameterException("id is required");
+        }
+
+        Order order = orderRepository.findById(orderId).orElseThrow(
+                ()-> new DataNotExistException("no order found with this id: "+orderId)
+        );
+
+        if(order.getRestAmount().compareTo(BigDecimal.ZERO) > 0){
+            throw new IllegalArgumentException("order can not be confirm until is fully payed");
+        }
+
+        order.setStatus(OrderStatus.CONFIRMED);
+
+        return orderMapper.toResponseDto(order);
     }
 
     @Override
