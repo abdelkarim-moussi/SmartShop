@@ -7,8 +7,7 @@ import com.app.smartshop.application.dto.Page;
 
 public interface IOrderService {
     OrderResponseDTO createOrder(OrderRequestDTO order);
-    OrderResponseDTO updateOrder(String id,OrderRequestDTO order);
-    OrderResponseDTO findOrderById(String id);
-    void deleteOrderById(String id);
+    OrderResponseDTO confirmOrder(String id);
+    OrderResponseDTO cancelOrder(String id);
     Page<OrderResponseDTO> findAllOrders(DomainPageRequest domainPageRequest, OrderCriteria filters);
 }

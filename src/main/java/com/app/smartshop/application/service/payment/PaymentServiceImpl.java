@@ -1,7 +1,9 @@
 package com.app.smartshop.application.service;
 
+import com.app.smartshop.application.dto.*;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.InvalidParameterException;
+import com.app.smartshop.application.mapper.PaymentMapper;
 import com.app.smartshop.domain.entity.Order;
 import com.app.smartshop.domain.entity.Payment;
 import com.app.smartshop.domain.repository.JpaOrderRepository;
@@ -13,14 +15,16 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class PaymentService {
+public class PaymentServiceImpl implements IPaymentService{
     private final Map<String,PaymentProcessor> processors;
     private final JpaPaymentRepository paymentRepository;
     private final JpaOrderRepository orderRepository;
+    private final PaymentMapper paymentMapper;
 
-    public Payment makeAndValidatePayment(Payment payment){
+    @Override
+    public Payment makeAndValidatePayment(PaymentRequestDTO payment){
 
-        orderRepository.findById(payment.getOrderId()).orElseThrow(
+        Order order = orderRepository.findById(payment.getOrderId()).orElseThrow(
                 ()-> new DataNotExistException("there is no order with this id")
         );
 
@@ -34,7 +38,7 @@ public class PaymentService {
         processor.validate(payment);
         payment.setStatus(processor.determineInitialStatus(payment));
 
-        paymentRepository.save(payment);
-        return payment;
+        return paymentMapper.toEntity(payment);
     }
+
 }

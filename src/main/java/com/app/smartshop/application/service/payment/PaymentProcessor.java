@@ -1,0 +1,9 @@
+package com.app.smartshop.application.service;
+
+import com.app.smartshop.application.dto.PaymentRequestDTO;
+import com.app.smartshop.domain.enums.PaymentStatus;
+
+public interface PaymentProcessor {
+    void validate(PaymentRequestDTO payment);
+    PaymentStatus determineInitialStatus(PaymentRequestDTO payment);
+}

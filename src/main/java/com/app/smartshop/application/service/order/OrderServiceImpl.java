@@ -1,10 +1,11 @@
-package com.app.smartshop.application.service;
+package com.app.smartshop.application.service.order;
 
 import com.app.smartshop.application.dto.*;
 import com.app.smartshop.application.exception.BusinessRuleException;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.InvalidParameterException;
 import com.app.smartshop.application.mapper.OrderModelDTOMapper;
+import com.app.smartshop.application.service.IOrderService;
 import com.app.smartshop.domain.entity.*;
 import com.app.smartshop.domain.enums.OrderStatus;
 import com.app.smartshop.domain.entity.search.OrderCriteria;
@@ -22,7 +23,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class OrderServiceImpl implements IOrderService{
+public class OrderServiceImpl implements IOrderService {
 
     private final JpaClientRepository clientRepository;
     private final JpaProductRepository productRepository;
@@ -32,6 +33,8 @@ public class OrderServiceImpl implements IOrderService{
     @Override
     public OrderResponseDTO createOrder(OrderRequestDTO order) {
         if(order == null) throw new InvalidParameterException("order request can not be null");
+
+        validatePromoCode(order.getPromotionCode());
 
         Client client = clientRepository.findById(order.getClientId()).orElseThrow(
                 () -> new DataNotExistException("there no client with this ID: "+order.getClientId())
@@ -118,18 +121,31 @@ public class OrderServiceImpl implements IOrderService{
     }
 
     @Override
-    public OrderResponseDTO updateOrder(String id, OrderRequestDTO order) {
-        return null;
+    public OrderResponseDTO cancelOrder(String orderId) {
+        if(orderId == null || orderId.isEmpty()){
+            throw new InvalidParameterException("id is required");
+        }
+
+        Order order = orderRepository.findById(orderId).orElseThrow(
+                ()-> new DataNotExistException("no order found with this id: "+orderId)
+        );
+
+        if(order.getStatus().equals(OrderStatus.REJECTED) || order.getStatus().equals(OrderStatus.CANCELED) || order.getStatus().equals(OrderStatus.CONFIRMED)){
+            throw new IllegalArgumentException("order can only be canceled if it still PENDING");
+        }
+
+        order.setStatus(OrderStatus.CANCELED);
+
+        return orderMapper.toResponseDto(order);
     }
 
-    @Override
-    public OrderResponseDTO findOrderById(String id) {
-        return null;
-    }
-
-    @Override
-    public void deleteOrderById(String id) {
-
+    private void validatePromoCode(String promoCode){
+        String pattern = "PROMO-[A-Z0-9]{4}";
+        if(promoCode != null && !promoCode.isEmpty()){
+            if (!promoCode.matches(pattern)){
+                throw new IllegalArgumentException("promo code not matching the pattern PROMO-[A-Z0-9]{4}");
+            }
+        }
     }
 
     @Override
