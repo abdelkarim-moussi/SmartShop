@@ -1,8 +1,7 @@
-package com.app.smartshop.application.dto;
+package com.app.smartshop.application.dto.payment;
 
 import com.app.smartshop.domain.enums.PaymentStatus;
 import com.app.smartshop.domain.enums.PaymentType;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 

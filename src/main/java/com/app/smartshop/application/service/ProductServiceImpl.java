@@ -1,8 +1,8 @@
 package com.app.smartshop.application.service;
 
 import com.app.smartshop.domain.entity.search.ProductCriteria;
-import com.app.smartshop.application.dto.ProductRequestDTO;
-import com.app.smartshop.application.dto.ProductResponseDTO;
+import com.app.smartshop.application.dto.product.ProductRequestDTO;
+import com.app.smartshop.application.dto.product.ProductResponseDTO;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.InvalidParameterException;
 import com.app.smartshop.application.exception.ProductExistByNameException;

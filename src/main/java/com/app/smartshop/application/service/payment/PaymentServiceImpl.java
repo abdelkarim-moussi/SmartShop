@@ -1,6 +1,6 @@
 package com.app.smartshop.application.service.payment;
 
-import com.app.smartshop.application.dto.*;
+import com.app.smartshop.application.dto.payment.PaymentRequestDTO;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.exception.InvalidParameterException;
 import com.app.smartshop.application.mapper.PaymentMapper;

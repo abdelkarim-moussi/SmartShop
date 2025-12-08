@@ -1,5 +1,6 @@
-package com.app.smartshop.application.dto;
+package com.app.smartshop.application.dto.order;
 
+import com.app.smartshop.application.dto.client.ClientResponseDTO;
 import com.app.smartshop.domain.enums.OrderStatus;
 import lombok.*;
 
