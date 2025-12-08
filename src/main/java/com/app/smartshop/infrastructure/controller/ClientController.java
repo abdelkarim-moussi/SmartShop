@@ -8,6 +8,7 @@ import com.app.smartshop.domain.entity.search.ClientCriteria;
 import com.app.smartshop.application.service.IClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,12 +38,14 @@ public class ClientController {
             @RequestParam(name = "sortBy", defaultValue = "name") String sortBy,
             @RequestParam(name = "sortDir", defaultValue = "DESC") String sortDir,
             @RequestParam(name = "loyaltyLevel", required = false) String loyaltyLevel,
-            @RequestParam(name = "search", required = false) String search
+            @RequestParam(name = "search", required = false) String search,
+            @RequestParam(name = "name", required = false) String name
     ){
 
         ClientCriteria clientCriteria = ClientCriteria.builder()
                 .loyaltyLevel(loyaltyLevel)
                 .search(search)
+                .name(name)
                 .build();
 
         DomainPageRequest domainPageRequest = DomainPageRequest.builder()

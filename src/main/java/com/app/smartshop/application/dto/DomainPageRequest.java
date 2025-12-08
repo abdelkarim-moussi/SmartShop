@@ -5,10 +5,11 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class DomainPageRequest {
-    private final int page;
-    private final int size;
-    private final String sortBy;
-    private final String sortDir;
+    private int page;
+    private int size;
+    private String sortBy;
+    private String sortDir;
 }

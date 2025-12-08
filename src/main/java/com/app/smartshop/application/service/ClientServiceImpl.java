@@ -14,10 +14,11 @@ import com.app.smartshop.application.exception.InvalidParameterException;
 import com.app.smartshop.application.mapper.ClientMapper;
 import com.app.smartshop.domain.enums.LoyaltyLevel;
 import com.app.smartshop.domain.entity.Client;
-import com.app.smartshop.domain.enums.OrderStatus;
 import com.app.smartshop.domain.repository.JpaClientRepository;
 import com.app.smartshop.domain.repository.JpaOrderRepository;
 import com.app.smartshop.domain.repository.specification.ClientSpecification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -28,18 +29,19 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.Format;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ClientServiceImpl implements IClientService{
     final DateTimeFormatter DATE_FORMATER = DateTimeFormatter.ofPattern("dd-MM-yyyy | HH:mm:ss");
+    private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("name","loyaltyLevel");
 
     private final JpaClientRepository clientRepository;
     private final ClientMapper clientMapper;
@@ -114,16 +116,18 @@ public class ClientServiceImpl implements IClientService{
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ClientResponseDTO> findAllClients(DomainPageRequest domainPageRequest, ClientCriteria filters) {
-        Pageable pageable = PageRequest.of(domainPageRequest.getPage(),domainPageRequest.getSize(), Sort.Direction.valueOf(domainPageRequest.getSortBy()));
+    public Page<ClientResponseDTO> findAllClients(DomainPageRequest pageRequest, ClientCriteria filters) {
+
+        Sort sortDir = pageRequest.getSortDir().equalsIgnoreCase("desc")
+                ? Sort.by(pageRequest.getSortBy()).descending()
+                : Sort.by(pageRequest.getSortBy()).ascending();
+
+        Pageable pageable = PageRequest.of(pageRequest.getPage(),pageRequest.getSize(),sortDir);
 
         Specification<Client> specification = ClientSpecification.byFilters(filters);
         org.springframework.data.domain.Page<Client> clients = clientRepository.findAll(specification,pageable);
-        return new Page<>(
-                clients.getContent().stream().map(clientMapper::toResponseDTO).toList(),
-                clients.getTotalElements(),
-                clients.getTotalPages()
-        );
+
+        return clients.map(clientMapper::toResponseDTO);
     }
 
     @Override
@@ -155,7 +159,7 @@ public class ClientServiceImpl implements IClientService{
 
         List<Order> clientOrders = orderRepository.findAllByClient(client);
 
-        BigDecimal confirmedOrdersTotalAmount = getConfirmedOrdersTotalAmount(clientOrders);
+        BigDecimal confirmedOrdersTotalAmount = getConfirmedOrdersTotalAmount(client);
         String firstOrderDate = getFirstOrderDate(clientOrders);
         String lastOrderDate = getLastOrderDate(clientOrders);
 
@@ -167,12 +171,10 @@ public class ClientServiceImpl implements IClientService{
                 .build();
     }
 
-    private BigDecimal getConfirmedOrdersTotalAmount(List<Order> orders){
-        return orders.stream()
-                .filter(order -> order.getStatus().equals(OrderStatus.CONFIRMED))
-                .map(Order::getTotal)
-                .reduce(BigDecimal.ZERO,BigDecimal::add)
-                .setScale(2, RoundingMode.HALF_UP);
+    private BigDecimal getConfirmedOrdersTotalAmount(Client client){
+        BigDecimal total = orderRepository.sumTotalConfirmedOrdersByClient(client)
+                .orElse(BigDecimal.ZERO);
+        return total.setScale(2,RoundingMode.HALF_UP);
     }
 
     private String getFirstOrderDate(List<Order> orders){
