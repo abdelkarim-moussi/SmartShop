@@ -22,7 +22,6 @@ public class SessionManager {
         cookie.setMaxAge(7 * 24 * 60 * 60);
         cookie.setHttpOnly(true);
         cookie.setSecure(request.isSecure());
-//        ((HttpServletResponse) request).addCookie(cookie);
         return cookie.getValue();
     }
 

@@ -42,7 +42,7 @@ public class ProductController {
         return ResponseEntity.ok("product deleted successfully");
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<Page<ProductResponseDTO>> getAllProduct(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "5") int size,

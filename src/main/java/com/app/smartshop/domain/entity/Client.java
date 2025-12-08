@@ -27,4 +27,6 @@ public class Client {
     private LoyaltyLevel loyaltyLevel;
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
+    @OneToOne(mappedBy = "client")
+    private User user;
 }
