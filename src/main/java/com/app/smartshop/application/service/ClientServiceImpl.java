@@ -155,7 +155,7 @@ public class ClientServiceImpl implements IClientService{
 
         List<Order> clientOrders = orderRepository.findAllByClient(client);
 
-        BigDecimal confirmedOrdersTotalAmount = getConfirmedOrdersTotalAmount(clientOrders);
+        BigDecimal confirmedOrdersTotalAmount = getConfirmedOrdersTotalAmount(client);
         String firstOrderDate = getFirstOrderDate(clientOrders);
         String lastOrderDate = getLastOrderDate(clientOrders);
 
@@ -167,12 +167,10 @@ public class ClientServiceImpl implements IClientService{
                 .build();
     }
 
-    private BigDecimal getConfirmedOrdersTotalAmount(List<Order> orders){
-        return orders.stream()
-                .filter(order -> order.getStatus().equals(OrderStatus.CONFIRMED))
-                .map(Order::getTotal)
-                .reduce(BigDecimal.ZERO,BigDecimal::add)
-                .setScale(2, RoundingMode.HALF_UP);
+    private BigDecimal getConfirmedOrdersTotalAmount(Client client){
+        BigDecimal total = orderRepository.sumTotalConfirmedOrdersByClient(client)
+                .orElse(BigDecimal.ZERO);
+        return total.setScale(2,RoundingMode.HALF_UP);
     }
 
     private String getFirstOrderDate(List<Order> orders){
