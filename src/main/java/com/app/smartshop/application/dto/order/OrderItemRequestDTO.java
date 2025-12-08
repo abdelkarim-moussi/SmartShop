@@ -1,4 +1,4 @@
-package com.app.smartshop.application.dto;
+package com.app.smartshop.application.dto.order;
 
 import lombok.*;
 

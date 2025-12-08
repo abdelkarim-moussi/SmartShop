@@ -1,14 +1,17 @@
 package com.app.smartshop.infrastructure.controller;
-import com.app.smartshop.application.dto.ClientRequestDTO;
-import com.app.smartshop.application.dto.ClientResponseDTO;
+import com.app.smartshop.application.dto.*;
+import com.app.smartshop.application.dto.client.ClientOrdersResponse;
+import com.app.smartshop.application.dto.client.ClientRequestDTO;
+import com.app.smartshop.application.dto.client.ClientResponseDTO;
+import com.app.smartshop.application.dto.client.ClientStatistiques;
 import com.app.smartshop.domain.entity.search.ClientCriteria;
 import com.app.smartshop.application.service.IClientService;
-import com.app.smartshop.application.dto.DomainPageRequest;
-import com.app.smartshop.application.dto.Page;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/clients")
@@ -56,7 +59,7 @@ public class ClientController {
     }
 
     @PutMapping("update")
-    public ResponseEntity<ClientResponseDTO> updateClient(@RequestBody @Valid ClientRequestDTO clientRequest,@RequestParam(value = "id") String id){
+    public ResponseEntity<ClientResponseDTO> updateClient(@RequestBody @Valid ClientRequestDTO clientRequest, @RequestParam(value = "id") String id){
         return ResponseEntity.ok(clientService.updateClient(id,clientRequest));
     }
 
@@ -64,6 +67,18 @@ public class ClientController {
     public ResponseEntity<?> deleteClient(@RequestParam(value = "id") String id){
         clientService.deleteClientById(id);
         return ResponseEntity.ok("client with id:"+id+"deleted successfully");
+    }
+
+    @GetMapping("/orders")
+    private ResponseEntity<List<ClientOrdersResponse>> findClientOrders(@RequestParam (value = "id") String id){
+        List<ClientOrdersResponse> response = clientService.findClientOrders(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/statistiques")
+    private ResponseEntity<ClientStatistiques> findClientStatistiques(@RequestParam (value = "id") String id){
+        ClientStatistiques response = clientService.findClientStatistiques(id);
+        return ResponseEntity.ok(response);
     }
 
 }
