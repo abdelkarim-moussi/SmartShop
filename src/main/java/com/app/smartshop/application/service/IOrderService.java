@@ -9,5 +9,4 @@ public interface IOrderService {
     OrderResponseDTO createOrder(OrderRequestDTO order);
     OrderResponseDTO confirmOrder(String id);
     OrderResponseDTO cancelOrder(String id);
-    Page<OrderResponseDTO> findAllOrders(DomainPageRequest domainPageRequest, OrderCriteria filters);
 }

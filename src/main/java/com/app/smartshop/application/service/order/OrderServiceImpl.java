@@ -25,6 +25,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements IOrderService {
 
+    final String PROMO_CODE_PATTERN = "PROMO-[A-Z0-9]{4}";
+    final long PROMO_CODE_MAX_USAGE = 10;
+
     private final JpaClientRepository clientRepository;
     private final JpaProductRepository productRepository;
     private final JpaOrderRepository orderRepository;
@@ -34,8 +37,6 @@ public class OrderServiceImpl implements IOrderService {
     public OrderResponseDTO createOrder(OrderRequestDTO order) {
         if(order == null) throw new InvalidParameterException("order request can not be null");
 
-        validatePromoCode(order.getPromotionCode());
-
         Client client = clientRepository.findById(order.getClientId()).orElseThrow(
                 () -> new DataNotExistException("there no client with this ID: "+order.getClientId())
         );
@@ -43,9 +44,14 @@ public class OrderServiceImpl implements IOrderService {
         Order newOrder = Order.builder()
                 .date(LocalDateTime.now())
                 .client(client)
-                .promotionCode(order.getPromotionCode())
                 .status(OrderStatus.PENDING)
                 .build();
+
+        if(validatePromoCode(order.getPromotionCode())){
+            newOrder.setPromotionCode(order.getPromotionCode());
+        }else {
+            newOrder.setPromotionCode(null);
+        }
 
         List<OrderItem> items = mapAndProcessOrderItems(order.getItemsList(),newOrder);
         newOrder.setItemsList(items);
@@ -55,8 +61,8 @@ public class OrderServiceImpl implements IOrderService {
             orderRepository.save(newOrder);
             throw new BusinessRuleException("order is rejected due to insuffisant stock");
         }
-        updateProductStock(newOrder);
 
+        updateProductStock(newOrder);
         Order savedOrder = orderRepository.save(newOrder);
 
         return orderMapper.toResponseDto(savedOrder);
@@ -139,17 +145,20 @@ public class OrderServiceImpl implements IOrderService {
         return orderMapper.toResponseDto(order);
     }
 
-    private void validatePromoCode(String promoCode){
-        String pattern = "PROMO-[A-Z0-9]{4}";
+    private boolean validatePromoCode(String promoCode){
         if(promoCode != null && !promoCode.isEmpty()){
-            if (!promoCode.matches(pattern)){
-                throw new IllegalArgumentException("promo code not matching the pattern PROMO-[A-Z0-9]{4}");
+            if (!promoCode.matches(PROMO_CODE_PATTERN)){
+               return false;
             }
         }
-    }
 
-    @Override
-    public Page<OrderResponseDTO> findAllOrders(DomainPageRequest domainPageRequest, OrderCriteria filters) {
-        return null;
+        long currentUsage = orderRepository.countByPromotionCode(promoCode);
+
+        if(currentUsage >= PROMO_CODE_MAX_USAGE){
+            return false;
+        }
+
+        return true;
+
     }
 }
