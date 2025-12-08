@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1765233415983-3
+      author: abdelkarim
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: client_id
+                  type: VARCHAR(255)
+            tableName: users
+  - changeSet:
+      id: 1765233415983-4
+      author: abdelkarim
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: client_id
+            constraintName: uc_users_client
+            tableName: users
+  - changeSet:
+      id: 1765233415983-5
+      author: abdelkarim
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: client_id
+            baseTableName: users
+            constraintName: FK_USERS_ON_CLIENT
+            referencedColumnNames: id
+            referencedTableName: clients
+

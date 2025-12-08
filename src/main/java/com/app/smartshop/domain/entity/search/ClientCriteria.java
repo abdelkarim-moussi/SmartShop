@@ -10,4 +10,5 @@ import lombok.*;
 public class ClientCriteria {
     private String loyaltyLevel;
     private String search;
+    private String name;
 }

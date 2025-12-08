@@ -1,11 +1,11 @@
 package com.app.smartshop.infrastructure.controller;
 
 import com.app.smartshop.domain.entity.search.ProductCriteria;
-import com.app.smartshop.application.dto.ProductRequestDTO;
-import com.app.smartshop.application.dto.ProductResponseDTO;
+import com.app.smartshop.application.dto.product.ProductRequestDTO;
+import com.app.smartshop.application.dto.product.ProductResponseDTO;
 import com.app.smartshop.application.service.IProductService;
 import com.app.smartshop.application.dto.DomainPageRequest;
-import com.app.smartshop.application.dto.Page;
+import org.springframework.data.domain.Page;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -42,14 +42,14 @@ public class ProductController {
         return ResponseEntity.ok("product deleted successfully");
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<Page<ProductResponseDTO>> getAllProduct(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "5") int size,
-            @RequestParam(value = "sortBy", required = false) String sortBy,
-            @RequestParam(value = "sortDir", required = false) String sortDir,
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "unitPrice", required = false) BigDecimal price
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "5") int size,
+            @RequestParam(name = "sortBy", defaultValue = "unitPrice") String sortBy,
+            @RequestParam(name = "sortDir", defaultValue = "DESC") String sortDir,
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "unitPrice", required = false) BigDecimal price
 
     ){
         DomainPageRequest pageRequest = DomainPageRequest.builder()
@@ -64,7 +64,7 @@ public class ProductController {
                 .unitPrice(price)
                 .build();
 
-        Page responsePage = productService.findAllProducts(pageRequest,filters);
+        Page<ProductResponseDTO> responsePage = productService.findAllProducts(pageRequest,filters);
         return ResponseEntity.ok(responsePage);
     }
 

@@ -1,9 +1,9 @@
 package com.app.smartshop.infrastructure.controller;
 
-import com.app.smartshop.application.dto.OrderRequestDTO;
-import com.app.smartshop.application.dto.OrderResponseDTO;
-import com.app.smartshop.application.dto.PaymentRequestDTO;
-import com.app.smartshop.application.dto.PaymentResponseDTO;
+import com.app.smartshop.application.dto.order.OrderRequestDTO;
+import com.app.smartshop.application.dto.order.OrderResponseDTO;
+import com.app.smartshop.application.dto.payment.PaymentRequestDTO;
+import com.app.smartshop.application.dto.payment.PaymentResponseDTO;
 import com.app.smartshop.application.service.IOrderService;
 import com.app.smartshop.application.service.payment.PayOrder;
 import jakarta.validation.Valid;

@@ -1,9 +1,9 @@
 package com.app.smartshop.application.service.payment;
 
-import com.app.smartshop.application.dto.CheckPaymentDetails;
-import com.app.smartshop.application.dto.PaymentRequestDTO;
-import com.app.smartshop.application.dto.PaymentResponseDTO;
-import com.app.smartshop.application.dto.VirementPaymentDetails;
+import com.app.smartshop.application.dto.payment.CheckPaymentDetails;
+import com.app.smartshop.application.dto.payment.PaymentRequestDTO;
+import com.app.smartshop.application.dto.payment.PaymentResponseDTO;
+import com.app.smartshop.application.dto.payment.VirementPaymentDetails;
 import com.app.smartshop.application.exception.DataNotExistException;
 import com.app.smartshop.application.mapper.PaymentMapper;
 import com.app.smartshop.domain.entity.Order;

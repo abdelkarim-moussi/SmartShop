@@ -22,3 +22,5 @@ databaseChangeLog:
       file: db/changelog/2025/12/08-01-changelog-add-remaining-remove-checkNumber-receipt-Number.yaml
   - include:
       file: db/changelog/2025/12/08-01-changelog-update-payment-type-status-datatype-to-string.yaml
+  - include:
+      file: db/changelog/2025/12/08-01-changelog-add-client_id-to-users-and-constraints.yaml
