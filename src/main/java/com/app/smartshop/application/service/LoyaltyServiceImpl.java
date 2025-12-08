@@ -33,17 +33,20 @@ public class LoyaltyServiceImpl implements ILoyaltyService {
 
         List<Order> clientOrders = orderRepository.findAllByClient(client);
         BigDecimal ordersTotalPayed = clientOrders.stream()
-                .map(order -> order.getTotal().subtract(order.getRestAmount()))
+                .map(Order::getTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        if(clientOrders.size() >= 3 || ordersTotalPayed.compareTo(BigDecimal.valueOf(1000)) >= 0){
-            client.setLoyaltyLevel(LoyaltyLevel.SILVER);
-        }
-        if(clientOrders.size() >= 10 || ordersTotalPayed.compareTo(BigDecimal.valueOf(5000)) >= 0){
-            client.setLoyaltyLevel(LoyaltyLevel.GOLD);
-        }
         if(clientOrders.size() >= 20 || ordersTotalPayed.compareTo(BigDecimal.valueOf(15000)) >= 0){
             client.setLoyaltyLevel(LoyaltyLevel.PLATINUM);
+        }
+        else if(clientOrders.size() >= 10 || ordersTotalPayed.compareTo(BigDecimal.valueOf(5000)) >= 0){
+            client.setLoyaltyLevel(LoyaltyLevel.GOLD);
+        }
+        else if(clientOrders.size() >= 3 || ordersTotalPayed.compareTo(BigDecimal.valueOf(1000)) >= 0){
+            client.setLoyaltyLevel(LoyaltyLevel.SILVER);
+        }
+        else {
+            client.setLoyaltyLevel(LoyaltyLevel.BASIC);
         }
 
         clientRepository.save(client);

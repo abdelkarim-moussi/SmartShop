@@ -62,10 +62,7 @@ public class OrderServiceImpl implements IOrderService {
         }
 
         updateProductStock(newOrder);
-        Order savedOrder = orderRepository.save(newOrder);
-        loyaltyService.assignLoyaltyLevel(savedOrder.getClient().getId());
-
-        return orderMapper.toResponseDto(savedOrder);
+        return orderMapper.toResponseDto(orderRepository.save(newOrder));
     }
 
     private List<OrderItem> mapAndProcessOrderItems(List<OrderItemRequestDTO> items, Order order){
@@ -125,7 +122,7 @@ public class OrderServiceImpl implements IOrderService {
         }
 
         order.setStatus(OrderStatus.CONFIRMED);
-
+        loyaltyService.assignLoyaltyLevel(order.getClient().getId());
         return orderMapper.toResponseDto(order);
     }
 
