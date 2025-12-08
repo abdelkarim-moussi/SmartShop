@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1765154747093-3
+      author: abdelkarim
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: remaining
+                  type: DECIMAL
+            tableName: payments
+  - changeSet:
+      id: 1765154747093-4
+      author: abdelkarim
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropColumn:
+            columnName: check_number
+            tableName: payments
+        - dropColumn:
+            columnName: receipt_number
+            tableName: payments
+
